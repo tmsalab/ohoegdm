@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^\.github$
+^src/\.clang-format$
+^\.clang-format$
+^README\.Rmd$
+^codecov\.yml$
+^LICENSE$
