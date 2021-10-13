@@ -222,13 +222,105 @@ procedure. Meanwhile, the <strong><code>chain</code></strong> list contains full
 the <strong><code>details</code></strong> list provides information regarding the estimation call.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>## Configuration</span>
-<span class='va'>N</span> <span class='op'>=</span> <span class='fl'>100</span>  <span class='co'># Number of Subjects</span>
-<span class='va'>J</span> <span class='op'>=</span> <span class='fl'>20</span>   <span class='co'># Number of Items</span>
-<span class='va'>K</span> <span class='op'>=</span> <span class='fl'>3</span>    <span class='co'># Number of Attributes</span>
+    <pre class="examples"><div class='input'><span class='co'># Simulation Study</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"edmdata"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Q and Beta Design ----</span>
 
-<span class='co'>## TBA</span>
+<span class='co'># Obtain the full K3 Q matrix from edmdata</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"qmatrix_oracle_k3_j20"</span>, package <span class='op'>=</span> <span class='st'>"edmdata"</span><span class='op'>)</span>
+<span class='va'>Q_full</span> <span class='op'>=</span> <span class='va'>qmatrix_oracle_k3_j20</span>
+
+<span class='co'># Retain only a subset of the original Q matrix</span>
+<span class='va'>removal_idx</span> <span class='op'>=</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>9</span>, <span class='fl'>12</span>, <span class='fl'>15</span>, <span class='fl'>18</span>, <span class='fl'>19</span>, <span class='fl'>20</span><span class='op'>)</span>
+<span class='va'>Q</span> <span class='op'>=</span> <span class='va'>Q_full</span><span class='op'>[</span><span class='va'>removal_idx</span>, <span class='op'>]</span>
+
+<span class='co'># Construct the beta matrix by-hand</span>
+<span class='va'>beta</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, ncol <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span>
+
+<span class='co'># Intercept</span>
+<span class='va'>beta</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1</span>
+
+<span class='co'># Main effects</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='fl'>2</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1.5</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>:</span><span class='fl'>6</span>, <span class='fl'>3</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1.5</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>7</span><span class='op'>:</span><span class='fl'>9</span>, <span class='fl'>5</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1.5</span>
+
+<span class='co'># Setup two-way effects</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>10</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>11</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1</span>
+
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>12</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>13</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>14</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>6</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1</span>
+
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>15</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>16</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>17</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>7</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>1</span>
+
+<span class='co'># Setup three-way effects</span>
+<span class='va'>beta</span><span class='op'>[</span><span class='fl'>18</span><span class='op'>:</span><span class='fl'>20</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>0.75</span>
+
+<span class='co'># Decrease the number of Beta rows</span>
+<span class='va'>beta</span> <span class='op'>=</span> <span class='va'>beta</span><span class='op'>[</span><span class='va'>removal_idx</span>,<span class='op'>]</span>
+
+<span class='co'># Construct additional parameters for data simulation</span>
+<span class='va'>Tau</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='fl'>20</span>, ncol <span class='op'>=</span> <span class='fl'>3</span>, byrow <span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='co'>#mtau</span>
+<span class='va'>lambda</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>1.5</span>, <span class='op'>-</span><span class='fl'>1.25</span><span class='op'>)</span> <span class='co'>#mlambdas</span>
+<span class='va'>tau</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>-</span><span class='fl'>0.5</span>, <span class='fl'>0.5</span><span class='op'>)</span> <span class='co'># mtaus</span>
+
+
+<span class='co'># Simulation conditions ---- </span>
+<span class='va'>N</span> <span class='op'>=</span> <span class='fl'>100</span>        <span class='co'># Number of Observations</span>
+<span class='va'>J</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>beta</span><span class='op'>)</span> <span class='co'># Number of Items</span>
+<span class='va'>M</span> <span class='op'>=</span> <span class='fl'>4</span>          <span class='co'># Number of Response Categories</span>
+<span class='va'>Malpha</span> <span class='op'>=</span> <span class='fl'>2</span>     <span class='co'># Number of Classes</span>
+<span class='va'>K</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>Q</span><span class='op'>)</span>    <span class='co'># Number of Attributes</span>
+<span class='va'>order</span> <span class='op'>=</span> <span class='va'>K</span>      <span class='co'># Highest interaction to consider</span>
+<span class='va'>sdmtheta</span> <span class='op'>=</span> <span class='fl'>1</span>   <span class='co'># Standard deviation for theta values</span>
+
+<span class='co'># Simulate data ---- </span>
+
+<span class='co'># Generate theta values</span>
+<span class='va'>theta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>N</span>, sd <span class='op'>=</span> <span class='va'>sdmtheta</span><span class='op'>)</span>
+
+<span class='co'># Generate alphas </span>
+<span class='va'>Zs</span> <span class='op'>&lt;-</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>N</span>, <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%*%</span> <span class='va'>tau</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='va'>theta</span>, <span class='va'>N</span>, <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%*%</span> <span class='va'>lambda</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>N</span> <span class='op'>*</span> <span class='va'>K</span><span class='op'>)</span>, <span class='va'>N</span>, <span class='va'>K</span><span class='op'>)</span>
+<span class='va'>Alphas</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>Zs</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span>
+
+
+<span class='va'>vv</span> <span class='op'>=</span> <span class='fu'>ohoegdm</span><span class='fu'>:::</span><span class='fu'>gen_bijectionvector</span><span class='op'>(</span><span class='va'>K</span>, <span class='va'>Malpha</span><span class='op'>)</span>
+<span class='va'>CLs</span> <span class='op'>&lt;-</span> <span class='va'>Alphas</span> <span class='op'>%*%</span> <span class='va'>vv</span>
+<span class='va'>Atab</span> <span class='op'>=</span> <span class='fu'>ohoegdm</span><span class='fu'>:::</span><span class='fu'>GenerateAtable</span><span class='op'>(</span><span class='va'>Malpha</span> <span class='op'>^</span> <span class='va'>K</span>, <span class='va'>K</span>, <span class='va'>Malpha</span>, <span class='va'>order</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Atable</span>
+
+<span class='va'>Ysim</span> <span class='op'>=</span> <span class='fu'>ohoegdm</span><span class='fu'>:::</span><span class='fu'>simSLCM</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>J</span>, <span class='va'>M</span>, <span class='va'>Malpha</span> <span class='op'>^</span> <span class='va'>K</span>, <span class='va'>CLs</span>, <span class='va'>Atab</span>, <span class='va'>beta</span>, <span class='va'>Tau</span><span class='op'>)</span>
+
+<span class='co'># Establish chain properties </span>
+<span class='co'># Standard Deviation of MH. Set depending on sample size.</span>
+<span class='co'># If sample size is:</span>
+<span class='co'>#  - small, allow for larger standard deviation</span>
+<span class='co'>#  - large, allow for smaller standard deviation.</span>
+<span class='va'>sdMH</span> <span class='op'>=</span> <span class='fl'>.4</span> 
+<span class='va'>burnin</span> <span class='op'>=</span> <span class='fl'>50</span>        <span class='co'># Set for demonstration purposes, increase to at least 5,000 in practice.</span>
+<span class='va'>chain_length</span> <span class='op'>=</span> <span class='fl'>100</span> <span class='co'># Set for demonstration purposes, increase to at least 40,000 in practice.</span>
+
+<span class='co'># Setup spike-slab parameters</span>
+<span class='va'>l0s</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='va'>Malpha</span> <span class='op'>^</span> <span class='va'>K</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>l1s</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>Malpha</span> <span class='op'>^</span> <span class='va'>K</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>my_model</span> <span class='op'>=</span> <span class='fu'>ohoegdm</span><span class='fu'>::</span><span class='fu'>ohoegdm</span><span class='op'>(</span>
+  y <span class='op'>=</span> <span class='va'>Ysim</span>,
+  k <span class='op'>=</span> <span class='va'>K</span>,
+  m <span class='op'>=</span> <span class='va'>M</span>,
+  order <span class='op'>=</span> <span class='va'>order</span>,
+  l0 <span class='op'>=</span> <span class='va'>l0s</span>,
+  l1 <span class='op'>=</span> <span class='va'>l1s</span>,
+  m0 <span class='op'>=</span> <span class='fl'>0</span>,
+  bq <span class='op'>=</span> <span class='fl'>1</span>,
+  sdMH <span class='op'>=</span> <span class='va'>sdMH</span>,
+  burnin <span class='op'>=</span> <span class='va'>burnin</span>,
+  chain_length <span class='op'>=</span> <span class='va'>chain_length</span>
+<span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
