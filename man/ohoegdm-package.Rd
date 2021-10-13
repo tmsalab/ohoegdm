@@ -8,6 +8,15 @@
 \description{
 Perform a Bayesian estimation of the ordinal exploratory Higher-order General Diagnostic Model (OHOEGDM) for Polytomous Data described by Culpepper, S. A. and Balamuta, J. J. (In Press).
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/tmsalab/ohoegdm}
+  \item \url{https://tmsalab.github.io/ohoegdm/}
+  \item Report bugs at \url{https://github.com/tmsalab/ohoegdm/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: James Joseph Balamuta \email{balamut2@illinois.edu} (\href{https://orcid.org/0000-0003-2826-8458}{ORCID}) [copyright holder]
 

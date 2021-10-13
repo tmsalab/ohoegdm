@@ -15,9 +15,10 @@ Authors@R: c(
 Description: Perform a Bayesian estimation of the ordinal exploratory 
     Higher-order General Diagnostic Model (OHOEGDM) for Polytomous Data 
     described by Culpepper, S. A. and Balamuta, J. J. (In Press).
+URL: https://github.com/tmsalab/ohoegdm, https://tmsalab.github.io/ohoegdm/
+BugReports: https://github.com/tmsalab/ohoegdm/issues
 License: GPL (>= 2)
 Encoding: UTF-8
-LazyData: true
 RoxygenNote: 7.1.1
 LinkingTo: 
     Rcpp,
