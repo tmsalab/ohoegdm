@@ -7,3 +7,6 @@
 ^README\.Rmd$
 ^codecov\.yml$
 ^LICENSE$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
