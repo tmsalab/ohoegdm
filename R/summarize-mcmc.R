@@ -45,7 +45,7 @@ summarize_4d_array_output = function(x) {
 # Route to the correct summary manipulation
 summarize_model = function(x) {
     # Retrieve properties of object
-    class_x = class(x)
+    class_x = class(x)[1]
     type_x = typeof(x)
     dim_x = dim(x)
     n_cols = dim_x[2]
