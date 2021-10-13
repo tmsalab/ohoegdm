@@ -44,14 +44,19 @@ devtools::install_github("tmsalab/ohoegdm")
 
 To use `ohoegdm`, load the package using:
 
-```{r, eval = FALSE}
+```r
 library("ohoegdm")
 ```
 
 From here, the OHO-EGDM model can be estimated using:
 
-```{r}
-# TODO
+```r
+my_model = ohoegdm::ohoegdm(
+  y = <data>,
+  k = <k>,
+  m = <item-responses-categories>,
+  order = <model-interaction-order>
+)
 ```
 
 ## Authors

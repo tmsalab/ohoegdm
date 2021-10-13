@@ -40,7 +40,12 @@ library("ohoegdm")
 From here, the OHO-EGDM model can be estimated using:
 
 ``` r
-# TODO
+my_model = ohoegdm::ohoegdm(
+  y = <data>,
+  k = <k>,
+  m = <item-responses-categories>,
+  order = order
+)
 ```
 
 ## Authors
