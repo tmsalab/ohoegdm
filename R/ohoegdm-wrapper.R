@@ -72,13 +72,105 @@ new_ohoegdm_model = function(model_mcmc,
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' ## Configuration
-#' N = 100  # Number of Subjects
-#' J = 20   # Number of Items
-#' K = 3    # Number of Attributes
-#'
-#' ## TBA
+#' # Simulation Study
+#' if (requireNamespace("edmdata", quietly = TRUE)) {
+#' # Q and Beta Design ----
+#' 
+#' # Obtain the full K3 Q matrix from edmdata
+#' data("qmatrix_oracle_k3_j20", package = "edmdata")
+#' Q_full = qmatrix_oracle_k3_j20
+#' 
+#' # Retain only a subset of the original Q matrix
+#' removal_idx = -c(3, 5, 9, 12, 15, 18, 19, 20)
+#' Q = Q_full[removal_idx, ]
+#' 
+#' # Construct the beta matrix by-hand
+#' beta = matrix(0, 20, ncol = 8)
+#' 
+#' # Intercept
+#' beta[, 1] = 1
+#' 
+#' # Main effects
+#' beta[1:3, 2] = 1.5
+#' beta[4:6, 3] = 1.5
+#' beta[7:9, 5] = 1.5
+#' 
+#' # Setup two-way effects
+#' beta[10, c(2, 3)] = 1
+#' beta[11, c(3, 4)] = 1
+#' 
+#' beta[12, c(2, 5)] = 1
+#' beta[13, c(2, 5)] = 1
+#' beta[14, c(2, 6)] = 1
+#' 
+#' beta[15, c(3, 5)] = 1
+#' beta[16, c(3, 5)] = 1
+#' beta[17, c(3, 7)] = 1
+#' 
+#' # Setup three-way effects
+#' beta[18:20, c(2, 3, 5)] = 0.75
+#' 
+#' # Decrease the number of Beta rows
+#' beta = beta[removal_idx,]
+#' 
+#' # Construct additional parameters for data simulation
+#' Tau = matrix(c(0, 1, 2), nrow = 20, ncol = 3, byrow =TRUE) #mtau
+#' lambda <- c(0.25, 1.5, -1.25) #mlambdas
+#' tau <- c(0, -0.5, 0.5) # mtaus
+#' 
+#' 
+#' # Simulation conditions ---- 
+#' N = 100        # Number of Observations
+#' J = nrow(beta) # Number of Items
+#' M = 4          # Number of Response Categories
+#' Malpha = 2     # Number of Classes
+#' K = ncol(Q)    # Number of Attributes
+#' order = K      # Highest interaction to consider
+#' sdmtheta = 1   # Standard deviation for theta values
+#' 
+#' # Simulate data ---- 
+#' 
+#' # Generate theta values
+#' theta <- rnorm(N, sd = sdmtheta)
+#' 
+#' # Generate alphas 
+#' Zs <-
+#'     matrix(1, N, 1) %*% tau + matrix(theta, N, 1) %*% lambda + matrix(rnorm(N * K), N, K)
+#' Alphas <- 1 * (Zs > 0)
+#' 
+#' 
+#' vv = ohoegdm:::gen_bijectionvector(K, Malpha)
+#' CLs <- Alphas %*% vv
+#' Atab = ohoegdm:::GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
+#' 
+#' Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Tau)
+#' 
+#' # Establish chain properties 
+#' # Standard Deviation of MH. Set depending on sample size.
+#' # If sample size is:
+#' #  - small, allow for larger standard deviation
+#' #  - large, allow for smaller standard deviation.
+#' sdMH = .4 
+#' burnin = 50        # Set for demonstration purposes, increase to at least 5,000 in practice.
+#' chain_length = 100 # Set for demonstration purposes, increase to at least 40,000 in practice.
+#' 
+#' # Setup spike-slab parameters
+#' l0s = c(1, rep(100, Malpha ^ K - 1))
+#' l1s = c(1, rep(1, Malpha ^ K - 1))
+#' 
+#' my_model = ohoegdm::ohoegdm(
+#'   y = Ysim,
+#'   k = K,
+#'   m = M,
+#'   order = order,
+#'   l0 = l0s,
+#'   l1 = l1s,
+#'   m0 = 0,
+#'   bq = 1,
+#'   sdMH = sdMH,
+#'   burnin = burnin,
+#'   chain_length = chain_length
+#' )
 #' }
 ohoegdm = function(y,
                  k,
