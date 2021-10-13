@@ -1,0 +1,10 @@
+citHeader("To cite ohoegdm in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "Inferring latent structure in polytomous data with a higher-order diagnostic model",
+  author   = "Steven Andrew Culpepper and James Joseph Balamuta",
+  journal  = "Multivariate Behavioral Research",
+  year     = "In Press",
+  textVersion = paste("Culpepper, S. A. & Balamuta, J. J. (In Press). Inferring latent structure in polytomous data with a higher-order diagnostic model, Multivariate Behavioral Research.")
+)
