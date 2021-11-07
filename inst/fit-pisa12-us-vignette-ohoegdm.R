@@ -53,9 +53,9 @@ fit_model$estimates$MHsum
 Q_est = 1*(fit_model$estimates$estimates$QS > .5)
 
 # View parameter estimates
-mbeta = round(fit_model$estimates$BETAS, 2)
-mtau = round(fit_model$estimates$TAU, 3)
-mtaus = round(fit_model$estimates$taus, 2)
+mbeta = round(fit_model$estimates$BETAS$mean, 2)
+mkappas= round(fit_model$estimates$KAPPAs$mean, 3)
+mtaus = round(fit_model$estimates$Taus$mean, 2)
 mlambdas = round(apply(fit_model$chain$lambdas, 1, mean), 2) # Consider rotating.
 mthetas = fit_model$estimates$mtheta
 sdmtheta = sd(mthetas)
