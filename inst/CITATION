@@ -5,6 +5,7 @@ citEntry(
   title    = "Inferring latent structure in polytomous data with a higher-order diagnostic model",
   author   = "Steven Andrew Culpepper and James Joseph Balamuta",
   journal  = "Multivariate Behavioral Research",
+  doi      = "10.1080/00273171.2021.1985949",
   year     = "In Press",
   textVersion = paste("Culpepper, S. A. & Balamuta, J. J. (In Press). Inferring latent structure in polytomous data with a higher-order diagnostic model, Multivariate Behavioral Research.")
 )

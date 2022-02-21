@@ -6,7 +6,7 @@
 \alias{_PACKAGE}
 \title{ohoegdm: Ordinal Higher-order Exploratory General Diagnostic Model for Polytomous Data}
 \description{
-Perform a Bayesian estimation of the ordinal exploratory Higher-order General Diagnostic Model (OHOEGDM) for Polytomous Data described by Culpepper, S. A. and Balamuta, J. J. (In Press).
+Perform a Bayesian estimation of the ordinal exploratory Higher-order General Diagnostic Model (OHOEGDM) for Polytomous Data described by Culpepper, S. A. and Balamuta, J. J. (In Press) <doi:10.1080/00273171.2021.1985949>.
 }
 \seealso{
 Useful links:
