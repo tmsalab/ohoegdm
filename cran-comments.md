@@ -13,4 +13,4 @@
 >  Polytomous (3:9, 17:57)
 
 - Note, the first two are the authors' last names and the latter two relate
-  to the naming of the newly developed method.
+  to the naming of the newly developed method implemented by the _R_ package.
