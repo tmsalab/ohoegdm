@@ -1,8 +1,6 @@
 #include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
 
-using namespace Rcpp;
-
 // cpp code for R1 of psychometrika paper
 // Attributes are assumed binary
 // TAU is a J by M-2 matrix
