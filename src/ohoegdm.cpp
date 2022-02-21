@@ -1,9 +1,8 @@
 #include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
 
-// cpp code for R1 of psychometrika paper
 // Attributes are assumed binary
-// TAU is a J by M-2 matrix
+// KAPPA is a J by M-2 matrix
 // Mixed type items are allowed
 
 // [[Rcpp::export]]
@@ -154,7 +153,7 @@ arma::mat random_Q(unsigned int J, unsigned int K)
 arma::mat simSLCM(unsigned int N, unsigned int J, unsigned int M,
                   unsigned int nClass, const arma::vec &CLASS,
                   const arma::mat &Atable, const arma::mat &BETA,
-                  const arma::mat &TAU)
+                  const arma::mat &KAPPA)
 {
     arma::cube PY_a = arma::ones<arma::cube>(J, nClass, M + 1);
     PY_a.slice(0) = arma::zeros<arma::mat>(J, nClass);
@@ -164,7 +163,7 @@ arma::mat simSLCM(unsigned int N, unsigned int J, unsigned int M,
         for (unsigned int j = 0; j < J; j++) {
             double aBj = arma::accu(a_alpha % BETA.row(j));
             for (unsigned int m = 0; m < M - 1; m++) {
-                PY_a(j, cc, m + 1) = R::pnorm(TAU(j, m), aBj, 1., 1, 0);
+                PY_a(j, cc, m + 1) = R::pnorm(KAPPA(j, m), aBj, 1., 1, 0);
             }
         }
     }
@@ -201,7 +200,7 @@ arma::mat BetatoTheta(unsigned int J, unsigned int nClass,
 // needs to deal with different Mj
 // [[Rcpp::export]]
 arma::mat computePYaj(unsigned int J, unsigned int M, unsigned int nClass,
-                      const arma::rowvec &ABETAj, const arma::rowvec &TAUj)
+                      const arma::rowvec &ABETAj, const arma::rowvec &KAPPAj)
 {
 
     arma::mat PY_a = arma::ones<arma::mat>(nClass, M + 1);
@@ -211,7 +210,7 @@ arma::mat computePYaj(unsigned int J, unsigned int M, unsigned int nClass,
     for (unsigned int cc = 0; cc < nClass; cc++) {
         double aBj = ABETAj(cc);
         for (unsigned int m = 0; m < M - 1; m++) {
-            PY_a(cc, m + 1) = R::pnorm(TAUj(m), aBj, 1., 1, 0);
+            PY_a(cc, m + 1) = R::pnorm(KAPPAj(m), aBj, 1., 1, 0);
         }
     }
     return PY_a;
@@ -222,7 +221,7 @@ arma::mat computePYaj(unsigned int J, unsigned int M, unsigned int nClass,
 // [[Rcpp::export]]
 Rcpp::List computePYa(unsigned int J, unsigned int M, unsigned int nClass,
                       const arma::mat &Atable, const arma::mat &BETA,
-                      const arma::mat &TAU)
+                      const arma::mat &KAPPA)
 {
 
     arma::cube PY_a = arma::ones<arma::cube>(J, nClass, M + 1);
@@ -239,7 +238,7 @@ Rcpp::List computePYa(unsigned int J, unsigned int M, unsigned int nClass,
             ABETA(j, cc) = aBj;
             ABETA_sqnorm(cc) += aBj * aBj;
             for (unsigned int m = 0; m < M - 1; m++) {
-                PY_a(j, cc, m + 1) = R::pnorm(TAU(j, m), aBj, 1., 1, 0);
+                PY_a(j, cc, m + 1) = R::pnorm(KAPPA(j, m), aBj, 1., 1, 0);
             }
         }
     }
@@ -506,7 +505,7 @@ void lambda_sample(unsigned int K, arma::vec &lambda, const arma::vec &m_lam,
 
 // [[Rcpp::export]]
 void sampletauYast(unsigned int N, unsigned int J, unsigned int M,
-                   unsigned int nClass, const arma::mat &Y, arma::mat &TAU,
+                   unsigned int nClass, const arma::mat &Y, arma::mat &KAPPA,
                    arma::mat &Yast, const arma::mat &ABETA, arma::cube &PY_a,
                    const arma::vec &CLASS, arma::vec &MHaccept, double sdMH)
 {
@@ -515,7 +514,7 @@ void sampletauYast(unsigned int N, unsigned int J, unsigned int M,
     for (unsigned int j = 0; j < J; j++) {
         arma::vec Yj = Y.col(j);
         arma::rowvec ABETAj = ABETA.row(j);
-        arma::rowvec Kaps = TAU.row(j);
+        arma::rowvec Kaps = KAPPA.row(j);
         // Sample MH Threshold candidates
         arma::rowvec KapsMH = sampletauast(M, Kaps, sdMH);
         // Step 1a: compute m part related to thresholds
@@ -554,7 +553,7 @@ void sampletauYast(unsigned int N, unsigned int J, unsigned int M,
         if (lnuR < lnmpart + lnipart) { //+ lnpriorpart
             MHaccept(j) = 1.;
             Kaps = KapsMH;
-            TAU.row(j) = Kaps;
+            KAPPA.row(j) = Kaps;
             PYaj = PYajMH;
             // arma::mat PYaj = PY_a.subcube(j,0,0,j,nClass-1,M);
             PY_a.subcube(j, 0, 0, j, nClass - 1, M) = PYaj;
@@ -707,7 +706,7 @@ void update_slipping_guessing(double &slipping, double &guessing,
 double parm_update_nomiss(
     unsigned int N, unsigned int J, unsigned int K, unsigned int nClass,
     unsigned int M, const arma::mat &Y, arma::mat &Yast, arma::mat &BETA,
-    arma::mat &TAU, arma::vec &CLASS, arma::vec &theta, arma::vec &lambda,
+    arma::mat &KAPPA, arma::vec &CLASS, arma::vec &theta, arma::vec &lambda,
     arma::vec &tau, arma::mat &Q, 
     arma::mat &DELTA,
     const arma::mat &Q_prime,
@@ -724,8 +723,8 @@ double parm_update_nomiss(
     // Rows are Eta and Columns Delta
     arma::mat ab_tilde = arma::zeros<arma::mat>(2, 2);
     
-    // update TAU and Yast
-    sampletauYast(N, J, M, nClass, Y, TAU, Yast, ABETA, PY_a, CLASS, MHaccept,
+    // update KAPPA and Yast
+    sampletauYast(N, J, M, nClass, Y, KAPPA, Yast, ABETA, PY_a, CLASS, MHaccept,
                   sdMH);
 
     // update classes + store info for Betas and pi
@@ -1077,8 +1076,8 @@ double parm_update_nomiss(
         }
         
         arma::rowvec ABETAj = (Atable * betaj.t()).t();
-        arma::rowvec TAUj = TAU.row(j);
-        arma::mat PYajtm1 = computePYaj(J, M, nClass, ABETAj, TAUj);
+        arma::rowvec KAPPAj = KAPPA.row(j);
+        arma::mat PYajtm1 = computePYaj(J, M, nClass, ABETAj, KAPPAj);
         PY_a.subcube(j, 0, 0, j, nClass - 1, M) = PYajtm1;
         ABETA.row(j) = ABETAj;
         BETA.row(j) = betaj;
@@ -1281,7 +1280,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
     arma::vec tau = arma::zeros<arma::vec>(K);
     arma::vec lambda = arma::ones<arma::vec>(K) * .5;
     arma::vec theta = arma::randn<arma::vec>(N);
-    arma::mat TAU = kappa_initialize(M, J);
+    arma::mat KAPPA = kappa_initialize(M, J);
     
     // 
     arma::vec CLASS =
@@ -1289,18 +1288,18 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
     
     // arma::vec zerotoMm2=arma::linspace(0,M-2,M-1);
     // for(unsigned int j=0;j<J;j++){
-    //   TAU.row(j)=2.*zerotoMm2.t();
+    //   KAPPA.row(j)=2.*zerotoMm2.t();
     // }
 
-    // // arma::mat TAU(J,M-1);
+    // // arma::mat KAPPA(J,M-1);
     // double intervalbound=3;
     // for(unsigned int j=0;j<J;j++){
     //   for(unsigned int m=0;m<M-1;m++){
-    //     TAU(j,m)=-intervalbound+(m+1.)*2.*intervalbound/double(M);
+    //     KAPPA(j,m)=-intervalbound+(m+1.)*2.*intervalbound/double(M);
     //   }
     // }
     //
-    // Rcpp::Rcout << TAU  << std::endl;
+    // Rcpp::Rcout << KAPPA  << std::endl;
     // arma::mat DELTA = arma::randi<arma::mat>(J,P,arma::distr_param(0,1));
     // DELTA.col(0)=arma::ones<arma::vec>(J);
     
@@ -1351,7 +1350,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
     double omega(.5);
     
     // must update compute PYa
-    Rcpp::List inputs = computePYa(J, M, nClass, Atable, BETA, TAU);
+    Rcpp::List inputs = computePYa(J, M, nClass, Atable, BETA, KAPPA);
     arma::mat ABETA = Rcpp::as<arma::mat>(inputs[0]);
     arma::vec ABETA_sqnorm = Rcpp::as<arma::vec>(inputs[1]);
     arma::cube PY_a = Rcpp::as<arma::cube>(inputs[2]);
@@ -1387,8 +1386,8 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
     arma::mat PIs(nClass, chain_length);
     arma::vec omegas(chain_length);
     // arma::vec omegataus(chain_length);
-    arma::cube TAUS = arma::cube(J, M - 1, chain_length);
-    // arma::mat mTAUS=arma::cube(J,M-1);
+    arma::cube KAPPAs = arma::cube(J, M - 1, chain_length);
+    // arma::mat mKAPPAs=arma::cube(J,M-1);
     arma::vec mtheta = arma::zeros<arma::vec>(N);
     // arma::mat D_tab=arma::zeros<arma::mat>(J,P);
     arma::mat taus(K, chain_length);
@@ -1406,7 +1405,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
     // Start Markov chain
     for (unsigned int t = 0; t < chain_length_plus_burnin; t++) {
         omega = parm_update_nomiss(
-            N, J, K, nClass, M, Y, Yast, BETA, TAU, CLASS, theta, lambda, tau,
+            N, J, K, nClass, M, Y, Yast, BETA, KAPPA, CLASS, theta, lambda, tau,
             Q, 
             DELTA,
             Q_prime,
@@ -1422,7 +1421,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
         if (t > burnin - 1) {
             tmburn = t - burnin;
             /*
-          arma::mat Ysim=simSLCM(N,J,M,nClass,CLASS,Atable,BETA,TAU);
+          arma::mat Ysim=simSLCM(N,J,M,nClass,CLASS,Atable,BETA,KAPPA);
           arma::rowvec sim_item_means =arma::mean(Ysim);
           arma::mat sim_item_cov = Ysim.t()*Ysim;//arma::cov(Ysim);
           for(unsigned int j1=0;j1<J;j1++){
@@ -1450,10 +1449,10 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
             SLIP(tmburn) = slipping;
             GUESS(tmburn) = guessing;
             BETAS.slice(tmburn) = BETA;
-            TAUS.slice(tmburn) = TAU;
+            KAPPAs.slice(tmburn) = KAPPA;
             CLs.col(tmburn) = CLASS;
-            // mTAUS   = TAU/double(tmburn+1.)
-            // +double(tmburn/(tmburn+1.))*mTAUS;
+            // mKAPPAs   = KAPPA/double(tmburn+1.)
+            // +double(tmburn/(tmburn+1.))*mKAPPAs;
             mtheta = theta / double(tmburn + 1.) +
                      double(tmburn / (tmburn + 1.)) * mtheta;
             // D_tab               +=DELTA;
@@ -1482,7 +1481,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
         Rcpp::Named("BETAS", BETAS),
         Rcpp::Named("GUESS", GUESS),
         Rcpp::Named("SLIP", SLIP),
-        Rcpp::Named("KAPPAs", TAUS), // CHANGE IN THE CODE ABOVE
+        Rcpp::Named("KAPPAs", KAPPAs), // CHANGE IN THE CODE ABOVE
         Rcpp::Named("Taus", taus),  // CHANGE IN THE CODE ABOVE
         Rcpp::Named("m2lls", m2lls),
         Rcpp::Named("omegas", omegas),
