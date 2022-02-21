@@ -11,8 +11,7 @@
 
 The goal of `ohoegdm` is to provide an implementation of the Ordinal
 Higher-order Exploratory General Diagnostic Model for Polytomous Data as
-described by Culpepper and Balamuta (In Press)
-<doi:10.1080/00273171.2021.1985949>.
+described by Culpepper and Balamuta (In Press).
 
 ## Installation
 
