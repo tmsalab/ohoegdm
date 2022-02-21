@@ -1,4 +1,4 @@
-# Construct the EXMS object
+# Construct the OHOEGDM object
 new_ohoegdm_model = function(model_mcmc,
                              details,
                              estimates = NULL,
@@ -48,8 +48,8 @@ new_ohoegdm_model = function(model_mcmc,
 #' - `m2lls`: Average negative two times log-likelihood
 #' - `omegas`: Average omega
 #' - `kappas` : Average category threshold parameter
-#' - `taus`: Average $K$-vectors of factor intercept
-#' - `lambdas`: Average $K$-vectors of factor loadings
+#' - `taus`: Average \eqn{K}-vectors of factor intercept
+#' - `lambdas`: Average \eqn{K}-vectors of factor loadings
 #' - `guessing`: Average guessing item parameter
 #' - `slipping`: Average slipping item parameter
 #' - `QS`: Average activeness of Q matrix entries
@@ -64,8 +64,8 @@ new_ohoegdm_model = function(model_mcmc,
 #' - `m2lls`: Negative two times log-likelihood iterations
 #' - `omegas`:  Omega iterations
 #' - `kappas` : Category threshold parameter iterations
-#' - `taus`: $K$-vectors of factor intercept iterations
-#' - `lambdas`: $K$-vectors of factor loadings iterations
+#' - `taus`: \eqn{K}-vectors of factor intercept iterations
+#' - `lambdas`: \eqn{K}-vectors of factor loadings iterations
 #' - `guessing`: Guessing item parameter iterations
 #' - `slipping`: Slipping item parameter iterations
 #'
@@ -142,9 +142,9 @@ new_ohoegdm_model = function(model_mcmc,
 #' beta = beta[removal_idx,]
 #' 
 #' # Construct additional parameters for data simulation
-#' Tau = matrix(c(0, 1, 2), nrow = 20, ncol = 3, byrow =TRUE) #mtau
-#' lambda <- c(0.25, 1.5, -1.25) #mlambdas
-#' tau <- c(0, -0.5, 0.5) # mtaus
+#' Kappa = matrix(c(0, 1, 2), nrow = 20, ncol = 3, byrow =TRUE) # mkappa
+#' lambda = c(0.25, 1.5, -1.25) # mlambdas
+#' tau = c(0, -0.5, 0.5) # mtaus
 #' 
 #' 
 #' # Simulation conditions ---- 
@@ -171,7 +171,7 @@ new_ohoegdm_model = function(model_mcmc,
 #' CLs <- Alphas %*% vv
 #' Atab = ohoegdm:::GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
 #' 
-#' Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Tau)
+#' Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Kappa)
 #' 
 #' # Establish chain properties 
 #' # Standard Deviation of MH. Set depending on sample size.

@@ -53,8 +53,8 @@ A \code{ohoegdm} object containing four named lists:
 \item \code{m2lls}: Average negative two times log-likelihood
 \item \code{omegas}: Average omega
 \item \code{kappas} : Average category threshold parameter
-\item \code{taus}: Average $K$-vectors of factor intercept
-\item \code{lambdas}: Average $K$-vectors of factor loadings
+\item \code{taus}: Average \eqn{K}-vectors of factor intercept
+\item \code{lambdas}: Average \eqn{K}-vectors of factor loadings
 \item \code{guessing}: Average guessing item parameter
 \item \code{slipping}: Average slipping item parameter
 \item \code{QS}: Average activeness of Q matrix entries
@@ -70,8 +70,8 @@ A \code{ohoegdm} object containing four named lists:
 \item \code{m2lls}: Negative two times log-likelihood iterations
 \item \code{omegas}:  Omega iterations
 \item \code{kappas} : Category threshold parameter iterations
-\item \code{taus}: $K$-vectors of factor intercept iterations
-\item \code{lambdas}: $K$-vectors of factor loadings iterations
+\item \code{taus}: \eqn{K}-vectors of factor intercept iterations
+\item \code{lambdas}: \eqn{K}-vectors of factor loadings iterations
 \item \code{guessing}: Guessing item parameter iterations
 \item \code{slipping}: Slipping item parameter iterations
 }
@@ -150,9 +150,9 @@ beta[18:20, c(2, 3, 5)] = 0.75
 beta = beta[removal_idx,]
 
 # Construct additional parameters for data simulation
-Tau = matrix(c(0, 1, 2), nrow = 20, ncol = 3, byrow =TRUE) #mtau
-lambda <- c(0.25, 1.5, -1.25) #mlambdas
-tau <- c(0, -0.5, 0.5) # mtaus
+Kappa = matrix(c(0, 1, 2), nrow = 20, ncol = 3, byrow =TRUE) # mkappa
+lambda = c(0.25, 1.5, -1.25) # mlambdas
+tau = c(0, -0.5, 0.5) # mtaus
 
 
 # Simulation conditions ---- 
@@ -179,7 +179,7 @@ vv = ohoegdm:::gen_bijectionvector(K, Malpha)
 CLs <- Alphas \%*\% vv
 Atab = ohoegdm:::GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
 
-Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Tau)
+Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Kappa)
 
 # Establish chain properties 
 # Standard Deviation of MH. Set depending on sample size.
