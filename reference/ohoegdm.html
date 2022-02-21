@@ -103,8 +103,7 @@ coefficients</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>ohoegdm</code> object containing four named lists:
-<strong><code>estimates</code></strong>: Averaged chain iterations</p><ul><li><p><code>thetas</code>: Average theta coefficients</p></li>
+    <p>A <code>ohoegdm</code> object containing four named lists:</p><ul><li><p><strong><code>estimates</code></strong>: Averaged chain iterations</p><ul><li><p><code>thetas</code>: Average theta coefficients</p></li>
 <li><p><code>betas</code>: Average beta coefficients</p></li>
 <li><p><code>deltas</code>: Average activeness of coefficients</p></li>
 <li><p><code>classes</code>: Average class membership</p></li>
@@ -116,7 +115,8 @@ coefficients</p></dd>
 <li><p><code>guessing</code>: Average guessing item parameter</p></li>
 <li><p><code>slipping</code>: Average slipping item parameter</p></li>
 <li><p><code>QS</code>: Average activeness of Q matrix entries</p></li>
-</ul><p><strong><code>chain</code></strong>: Chain iterations from the underlying <em>C++</em> rountine.</p><ul><li><p><code>thetas</code>: Theta coefficients iterations</p></li>
+</ul></li>
+<li><p><strong><code>chain</code></strong>: Chain iterations from the underlying <em>C++</em> rountine.</p><ul><li><p><code>thetas</code>: Theta coefficients iterations</p></li>
 <li><p><code>betas</code>:  Beta coefficients iterations</p></li>
 <li><p><code>deltas</code>: Activeness of coefficients iterations</p></li>
 <li><p><code>classes</code>:  Class membership iterations</p></li>
@@ -127,7 +127,8 @@ coefficients</p></dd>
 <li><p><code>lambdas</code>: \(K\)-vectors of factor loadings iterations</p></li>
 <li><p><code>guessing</code>: Guessing item parameter iterations</p></li>
 <li><p><code>slipping</code>: Slipping item parameter iterations</p></li>
-</ul><p><strong><code>details</code></strong>: Properties used to estimate the model</p><ul><li><p><code>n</code>: Number of Subjects</p></li>
+</ul></li>
+<li><p><strong><code>details</code></strong>: Properties used to estimate the model</p><ul><li><p><code>n</code>: Number of Subjects</p></li>
 <li><p><code>j</code>: Number of Items</p></li>
 <li><p><code>k</code>: Number of Traits</p></li>
 <li><p><code>m</code>: Number of Item Categories.</p></li>
@@ -139,8 +140,10 @@ coefficients</p></dd>
 <li><p><code>burnin</code>: Number of Iterations to discard</p></li>
 <li><p><code>chain_length</code>: Number of Iterations to keep</p></li>
 <li><p><code>runtime</code>: Elapsed time algorithm run time in the <em>C++</em> code.</p></li>
-</ul><p><strong><code>recovery</code></strong>: Assess recovery metrics under a simulation study.</p><ul><li><p><code>Q_item_encoded</code>: Per-iteration item encodings from Q matrix.</p></li>
+</ul></li>
+<li><p><strong><code>recovery</code></strong>: Assess recovery metrics under a simulation study.</p><ul><li><p><code>Q_item_encoded</code>: Per-iteration item encodings from Q matrix.</p></li>
 <li><p><code>MHsum</code>: Average acceptance from metropolis hastings sampler</p></li>
+</ul></li>
 </ul></div>
     <div id="details">
     <h2>Details</h2>
@@ -215,13 +218,14 @@ assessing the method under a simulation study.</p>
 <span class="r-in"><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, sd <span class="op">=</span> <span class="va">sdmtheta</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Generate alphas </span></span>
-<span class="r-in"><span class="va">Zs</span> <span class="op">&lt;-</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">N</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">tau</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">N</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">lambda</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span> <span class="op">*</span> <span class="va">K</span><span class="op">)</span>, <span class="va">N</span>, <span class="va">K</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Alphas</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">*</span> <span class="op">(</span><span class="va">Zs</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">Zs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">N</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">tau</span> <span class="op">+</span> </span>
+<span class="r-in">     <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">N</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">lambda</span> <span class="op">+</span> </span>
+<span class="r-in">     <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span> <span class="op">*</span> <span class="va">K</span><span class="op">)</span>, <span class="va">N</span>, <span class="va">K</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">Alphas</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">*</span> <span class="op">(</span><span class="va">Zs</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">vv</span> <span class="op">=</span> <span class="fu">ohoegdm</span><span class="fu">:::</span><span class="fu">gen_bijectionvector</span><span class="op">(</span><span class="va">K</span>, <span class="va">Malpha</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">CLs</span> <span class="op">&lt;-</span> <span class="va">Alphas</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">vv</span></span>
+<span class="r-in"><span class="va">CLs</span> <span class="op">=</span> <span class="va">Alphas</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">vv</span></span>
 <span class="r-in"><span class="va">Atab</span> <span class="op">=</span> <span class="fu">ohoegdm</span><span class="fu">:::</span><span class="fu">GenerateAtable</span><span class="op">(</span><span class="va">Malpha</span> <span class="op">^</span> <span class="va">K</span>, <span class="va">K</span>, <span class="va">Malpha</span>, <span class="va">order</span><span class="op">)</span><span class="op">$</span><span class="va">Atable</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">Ysim</span> <span class="op">=</span> <span class="fu">ohoegdm</span><span class="fu">:::</span><span class="fu">simSLCM</span><span class="op">(</span><span class="va">N</span>, <span class="va">J</span>, <span class="va">M</span>, <span class="va">Malpha</span> <span class="op">^</span> <span class="va">K</span>, <span class="va">CLs</span>, <span class="va">Atab</span>, <span class="va">beta</span>, <span class="va">Kappa</span><span class="op">)</span></span>
