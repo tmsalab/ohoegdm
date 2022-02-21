@@ -39,54 +39,47 @@ new_ohoegdm_model = function(model_mcmc,
 #'
 #' A `ohoegdm` object containing four named lists:
 #'
-#' **`estimates`**: Averaged chain iterations
-#'
-#' - `thetas`: Average theta coefficients
-#' - `betas`: Average beta coefficients
-#' - `deltas`: Average activeness of coefficients
-#' - `classes`: Average class membership
-#' - `m2lls`: Average negative two times log-likelihood
-#' - `omegas`: Average omega
-#' - `kappas` : Average category threshold parameter
-#' - `taus`: Average \eqn{K}-vectors of factor intercept
-#' - `lambdas`: Average \eqn{K}-vectors of factor loadings
-#' - `guessing`: Average guessing item parameter
-#' - `slipping`: Average slipping item parameter
-#' - `QS`: Average activeness of Q matrix entries
-#' 
-#' **`chain`**: Chain iterations from the underlying _C++_ rountine.
-#'
-#' - `thetas`: Theta coefficients iterations
-#' - `betas`:  Beta coefficients iterations
-#' - `deltas`: Activeness of coefficients iterations
-#' - `classes`:  Class membership iterations
-#' - `m2lls`: Negative two times log-likelihood iterations
-#' - `omegas`:  Omega iterations
-#' - `kappas` : Category threshold parameter iterations
-#' - `taus`: \eqn{K}-vectors of factor intercept iterations
-#' - `lambdas`: \eqn{K}-vectors of factor loadings iterations
-#' - `guessing`: Guessing item parameter iterations
-#' - `slipping`: Slipping item parameter iterations
-#'
-#' **`details`**: Properties used to estimate the model
-#'
-#' - `n`: Number of Subjects
-#' - `j`: Number of Items
-#' - `k`: Number of Traits
-#' - `m`: Number of Item Categories.
-#' - `order`: Highest interaction order to consider. Default model-specified `k`.
-#' - `sd_mh`: Metropolis-Hastings standard deviation tuning parameter. 
-#' - `l0`: Spike parameter
-#' - `l1`: Slab parameter
-#' - `m0`, `bq`: Additional tuning parameters
-#' - `burnin`: Number of Iterations to discard
-#' - `chain_length`: Number of Iterations to keep
-#' - `runtime`: Elapsed time algorithm run time in the _C++_ code.
-#'
-#' **`recovery`**: Assess recovery metrics under a simulation study.
-#' 
-#' - `Q_item_encoded`: Per-iteration item encodings from Q matrix.
-#' - `MHsum`: Average acceptance from metropolis hastings sampler
+#' - **`estimates`**: Averaged chain iterations
+#'    - `thetas`: Average theta coefficients
+#'    - `betas`: Average beta coefficients
+#'    - `deltas`: Average activeness of coefficients
+#'    - `classes`: Average class membership
+#'    - `m2lls`: Average negative two times log-likelihood
+#'    - `omegas`: Average omega
+#'    - `kappas` : Average category threshold parameter
+#'    - `taus`: Average \eqn{K}-vectors of factor intercept
+#'    - `lambdas`: Average \eqn{K}-vectors of factor loadings
+#'    - `guessing`: Average guessing item parameter
+#'    - `slipping`: Average slipping item parameter
+#'    - `QS`: Average activeness of Q matrix entries
+#' - **`chain`**: Chain iterations from the underlying _C++_ rountine.
+#'    - `thetas`: Theta coefficients iterations
+#'    - `betas`:  Beta coefficients iterations
+#'    - `deltas`: Activeness of coefficients iterations
+#'    - `classes`:  Class membership iterations
+#'    - `m2lls`: Negative two times log-likelihood iterations
+#'    - `omegas`:  Omega iterations
+#'    - `kappas` : Category threshold parameter iterations
+#'    - `taus`: \eqn{K}-vectors of factor intercept iterations
+#'    - `lambdas`: \eqn{K}-vectors of factor loadings iterations
+#'    - `guessing`: Guessing item parameter iterations
+#'    - `slipping`: Slipping item parameter iterations
+#' - **`details`**: Properties used to estimate the model
+#'    - `n`: Number of Subjects
+#'    - `j`: Number of Items
+#'    - `k`: Number of Traits
+#'    - `m`: Number of Item Categories.
+#'    - `order`: Highest interaction order to consider. Default model-specified `k`.
+#'    - `sd_mh`: Metropolis-Hastings standard deviation tuning parameter. 
+#'    - `l0`: Spike parameter
+#'    - `l1`: Slab parameter
+#'    - `m0`, `bq`: Additional tuning parameters
+#'    - `burnin`: Number of Iterations to discard
+#'    - `chain_length`: Number of Iterations to keep
+#'    - `runtime`: Elapsed time algorithm run time in the _C++_ code.
+#' - **`recovery`**: Assess recovery metrics under a simulation study.
+#'    - `Q_item_encoded`: Per-iteration item encodings from Q matrix.
+#'    - `MHsum`: Average acceptance from metropolis hastings sampler
 #' 
 #' @details
 #'
@@ -162,13 +155,14 @@ new_ohoegdm_model = function(model_mcmc,
 #' theta <- rnorm(N, sd = sdmtheta)
 #' 
 #' # Generate alphas 
-#' Zs <-
-#'     matrix(1, N, 1) %*% tau + matrix(theta, N, 1) %*% lambda + matrix(rnorm(N * K), N, K)
-#' Alphas <- 1 * (Zs > 0)
+#' Zs = matrix(1, N, 1) %*% tau + 
+#'      matrix(theta, N, 1) %*% lambda + 
+#'      matrix(rnorm(N * K), N, K)
+#' Alphas = 1 * (Zs > 0)
 #' 
 #' 
 #' vv = ohoegdm:::gen_bijectionvector(K, Malpha)
-#' CLs <- Alphas %*% vv
+#' CLs = Alphas %*% vv
 #' Atab = ohoegdm:::GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
 #' 
 #' Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Kappa)

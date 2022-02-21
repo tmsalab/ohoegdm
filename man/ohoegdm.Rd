@@ -43,8 +43,8 @@ coefficients}
 }
 \value{
 A \code{ohoegdm} object containing four named lists:
-
-\strong{\code{estimates}}: Averaged chain iterations
+\itemize{
+\item \strong{\code{estimates}}: Averaged chain iterations
 \itemize{
 \item \code{thetas}: Average theta coefficients
 \item \code{betas}: Average beta coefficients
@@ -59,8 +59,7 @@ A \code{ohoegdm} object containing four named lists:
 \item \code{slipping}: Average slipping item parameter
 \item \code{QS}: Average activeness of Q matrix entries
 }
-
-\strong{\code{chain}}: Chain iterations from the underlying \emph{C++} rountine.
+\item \strong{\code{chain}}: Chain iterations from the underlying \emph{C++} rountine.
 \itemize{
 \item \code{thetas}: Theta coefficients iterations
 \item \code{betas}:  Beta coefficients iterations
@@ -74,8 +73,7 @@ A \code{ohoegdm} object containing four named lists:
 \item \code{guessing}: Guessing item parameter iterations
 \item \code{slipping}: Slipping item parameter iterations
 }
-
-\strong{\code{details}}: Properties used to estimate the model
+\item \strong{\code{details}}: Properties used to estimate the model
 \itemize{
 \item \code{n}: Number of Subjects
 \item \code{j}: Number of Items
@@ -90,11 +88,11 @@ A \code{ohoegdm} object containing four named lists:
 \item \code{chain_length}: Number of Iterations to keep
 \item \code{runtime}: Elapsed time algorithm run time in the \emph{C++} code.
 }
-
-\strong{\code{recovery}}: Assess recovery metrics under a simulation study.
+\item \strong{\code{recovery}}: Assess recovery metrics under a simulation study.
 \itemize{
 \item \code{Q_item_encoded}: Per-iteration item encodings from Q matrix.
 \item \code{MHsum}: Average acceptance from metropolis hastings sampler
+}
 }
 }
 \description{
@@ -170,13 +168,14 @@ sdmtheta = 1   # Standard deviation for theta values
 theta <- rnorm(N, sd = sdmtheta)
 
 # Generate alphas 
-Zs <-
-    matrix(1, N, 1) \%*\% tau + matrix(theta, N, 1) \%*\% lambda + matrix(rnorm(N * K), N, K)
-Alphas <- 1 * (Zs > 0)
+Zs = matrix(1, N, 1) \%*\% tau + 
+     matrix(theta, N, 1) \%*\% lambda + 
+     matrix(rnorm(N * K), N, K)
+Alphas = 1 * (Zs > 0)
 
 
 vv = ohoegdm:::gen_bijectionvector(K, Malpha)
-CLs <- Alphas \%*\% vv
+CLs = Alphas \%*\% vv
 Atab = ohoegdm:::GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
 
 Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Kappa)
