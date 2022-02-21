@@ -10,7 +10,7 @@ ohoegdm(
   k,
   m = 2,
   order = k,
-  sdMH = 0.4,
+  sd_mh = 0.4,
   burnin = 1000L,
   chain_length = 10000L,
   l0 = c(1, rep(100, sum(choose(k, seq_len(order))))),
@@ -20,7 +20,7 @@ ohoegdm(
 )
 }
 \arguments{
-\item{y}{Item Matrix}
+\item{y}{Ordinal Item Matrix}
 
 \item{k}{Dimension to estimate for Q matrix}
 
@@ -28,46 +28,73 @@ ohoegdm(
 
 \item{order}{Highest interaction order to consider. Default model-specified \code{k}.}
 
-\item{sdMH}{Metropolis-Hastings standard deviation tuning parameter.}
+\item{sd_mh}{Metropolis-Hastings standard deviation tuning parameter.}
 
 \item{burnin}{Amount of Draws to Burn}
 
 \item{chain_length}{Number of Iterations for chain.}
 
-\item{l0, l1, m0, bq}{Additional tuning parameters.}
+\item{l0}{Spike parameter. Default 1 for intercept and 100
+coefficients}
+
+\item{l1}{Slab parameter. Default 1 for all values.}
+
+\item{m0, bq}{Additional tuning parameters.}
 }
 \value{
-A \code{egdm_delta} object containing three named lists:
+A \code{ohoegdm} object containing four named lists:
 
-\strong{\code{estimates}}
+\strong{\code{estimates}}: Averaged chain iterations
 \itemize{
 \item \code{thetas}: Average theta coefficients
 \item \code{betas}: Average beta coefficients
-\item \code{class}: Average class membership
-\item \code{pi}: Average attribute class probability.
-\item \code{omega}: Average omega
+\item \code{deltas}: Average activeness of coefficients
+\item \code{classes}: Average class membership
+\item \code{m2lls}: Average negative two times log-likelihood
+\item \code{omegas}: Average omega
+\item \code{kappas} : Average category threshold parameter
+\item \code{taus}: Average $K$-vectors of factor intercept
+\item \code{lambdas}: Average $K$-vectors of factor loadings
+\item \code{guessing}: Average guessing item parameter
+\item \code{slipping}: Average slipping item parameter
+\item \code{QS}: Average activeness of Q matrix entries
+\item \code{MHsum}: Average acceptance from metropolis hastings sampler
 }
 
-\strong{\code{chain}}
+\strong{\code{chain}}: Chain iterations from the underlying \emph{C++} rountine.
 \itemize{
-\item \code{thetas}: theta coefficients iterations
-\item \code{betas}:  beta coefficients iterations
-\item \code{class}:  class membership iterations
-\item \code{omega}:  omega iterations
+\item \code{thetas}: Theta coefficients iterations
+\item \code{betas}:  Beta coefficients iterations
+\item \code{deltas}: Activeness of coefficients iterations
+\item \code{classes}:  Class membership iterations
+\item \code{m2lls}: Negative two times log-likelihood iterations
+\item \code{omegas}:  Omega iterations
+\item \code{kappas} : Category threshold parameter iterations
+\item \code{taus}: $K$-vectors of factor intercept iterations
+\item \code{lambdas}: $K$-vectors of factor loadings iterations
+\item \code{guessing}: Guessing item parameter iterations
+\item \code{slipping}: Slipping item parameter iterations
 }
 
-\strong{\code{details}}
+\strong{\code{details}}: Properties used to estimate the model
 \itemize{
 \item \code{n}: Number of Subjects
 \item \code{j}: Number of Items
 \item \code{k}: Number of Traits
+\item \code{m}: Number of Item Categories.
 \item \code{order}: Highest interaction order to consider. Default model-specified \code{k}.
-\item \code{sdMH}: Metropolis-Hastings standard deviation tuning parameter.
+\item \code{sd_mh}: Metropolis-Hastings standard deviation tuning parameter.
 \item \code{l0}: Spike parameter
 \item \code{l1}: Slab parameter
 \item \code{m0}, \code{bq}: Additional tuning parameters
 \item \code{burnin}: Number of Iterations to discard
 \item \code{chain_length}: Number of Iterations to keep
+\item \code{runtime}: Elapsed time algorithm run time in the \emph{C++} code.
+}
+
+\strong{\code{recovery}}: Assess recovery metrics under a simulation study.
+\itemize{
+\item \code{Q_item_encoded}: Per-iteration item encodings from Q matrix.
 }
 }
 \description{
@@ -75,8 +102,10 @@ Performs the Gibbs sampling routine for a higher-order EGDM.
 }
 \details{
 The \strong{\code{estimates}} list contains the mean information from the sampling
-procedure. Meanwhile, the \strong{\code{chain}} list contains full MCMC values. Lastly,
+procedure. Meanwhile, the \strong{\code{chain}} list contains full MCMC values. Moreover,
 the \strong{\code{details}} list provides information regarding the estimation call.
+Lastly, the \strong{\code{recovery}} list stores values that can be used when
+assessing the method under a simulation study.
 }
 \examples{
 # Simulation Study
@@ -157,7 +186,7 @@ Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Tau)
 # If sample size is:
 #  - small, allow for larger standard deviation
 #  - large, allow for smaller standard deviation.
-sdMH = .4 
+sd_mh = .4 
 burnin = 50        # Set for demonstration purposes, increase to at least 5,000 in practice.
 chain_length = 100 # Set for demonstration purposes, increase to at least 40,000 in practice.
 
@@ -174,7 +203,7 @@ my_model = ohoegdm::ohoegdm(
   l1 = l1s,
   m0 = 0,
   bq = 1,
-  sdMH = sdMH,
+  sd_mh = sd_mh,
   burnin = burnin,
   chain_length = chain_length
 )
