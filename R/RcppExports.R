@@ -47,20 +47,20 @@ random_Q <- function(J, K) {
     .Call(`_ohoegdm_random_Q`, J, K)
 }
 
-simSLCM <- function(N, J, M, nClass, CLASS, Atable, BETA, TAU) {
-    .Call(`_ohoegdm_simSLCM`, N, J, M, nClass, CLASS, Atable, BETA, TAU)
+simSLCM <- function(N, J, M, nClass, CLASS, Atable, BETA, KAPPA) {
+    .Call(`_ohoegdm_simSLCM`, N, J, M, nClass, CLASS, Atable, BETA, KAPPA)
 }
 
 BetatoTheta <- function(J, nClass, beta, Atable) {
     .Call(`_ohoegdm_BetatoTheta`, J, nClass, beta, Atable)
 }
 
-computePYaj <- function(J, M, nClass, ABETAj, TAUj) {
-    .Call(`_ohoegdm_computePYaj`, J, M, nClass, ABETAj, TAUj)
+computePYaj <- function(J, M, nClass, ABETAj, KAPPAj) {
+    .Call(`_ohoegdm_computePYaj`, J, M, nClass, ABETAj, KAPPAj)
 }
 
-computePYa <- function(J, M, nClass, Atable, BETA, TAU) {
-    .Call(`_ohoegdm_computePYa`, J, M, nClass, Atable, BETA, TAU)
+computePYa <- function(J, M, nClass, Atable, BETA, KAPPA) {
+    .Call(`_ohoegdm_computePYa`, J, M, nClass, Atable, BETA, KAPPA)
 }
 
 slcm_m2LL <- function(N, J, M, nClass, Y, pis, PY_a) {
@@ -71,8 +71,8 @@ Pa1 <- function(K, theta, lambda0, lambda1) {
     .Call(`_ohoegdm_Pa1`, K, theta, lambda0, lambda1)
 }
 
-slcm_m2LL_HO <- function(N, J, M, nClass, K, Y, theta, tau, lambda, PY_a, CLtable) {
-    .Call(`_ohoegdm_slcm_m2LL_HO`, N, J, M, nClass, K, Y, theta, tau, lambda, PY_a, CLtable)
+slcm_m2LL_HO <- function(N, J, M, nClass, K, Y, theta, Tau, lambda, PY_a, CLtable) {
+    .Call(`_ohoegdm_slcm_m2LL_HO`, N, J, M, nClass, K, Y, theta, Tau, lambda, PY_a, CLtable)
 }
 
 slcm_LLj <- function(N, M, nClass, Yj, CLASS, PY_ajast, PY_ajtm1) {
@@ -83,8 +83,8 @@ slcm_LLjm <- function(N, M, m, nClass, Yj, CLASS, PY_ajast, PY_ajtm1) {
     .Call(`_ohoegdm_slcm_LLjm`, N, M, m, nClass, Yj, CLASS, PY_ajast, PY_ajtm1)
 }
 
-sampletauast <- function(M, Kaps, sdMH) {
-    .Call(`_ohoegdm_sampletauast`, M, Kaps, sdMH)
+sampleTauast <- function(M, Kaps, sdMH) {
+    .Call(`_ohoegdm_sampleTauast`, M, Kaps, sdMH)
 }
 
 computeLowerBound_Bp <- function(nClass, LowerAdjTable, Atable, p, betaj, Bp) {
@@ -103,8 +103,8 @@ lambda_sample <- function(K, lambda, m_lam, v_lam) {
     invisible(.Call(`_ohoegdm_lambda_sample`, K, lambda, m_lam, v_lam))
 }
 
-sampletauYast <- function(N, J, M, nClass, Y, TAU, Yast, ABETA, PY_a, CLASS, MHaccept, sdMH) {
-    invisible(.Call(`_ohoegdm_sampletauYast`, N, J, M, nClass, Y, TAU, Yast, ABETA, PY_a, CLASS, MHaccept, sdMH))
+sampleTauYast <- function(N, J, M, nClass, Y, KAPPA, Yast, ABETA, PY_a, CLASS, MHaccept, sdMH) {
+    invisible(.Call(`_ohoegdm_sampleTauYast`, N, J, M, nClass, Y, KAPPA, Yast, ABETA, PY_a, CLASS, MHaccept, sdMH))
 }
 
 Q_prime_matrix <- function(K, Atable, vv) {
@@ -127,8 +127,8 @@ update_slipping_guessing <- function(slipping, guessing, ab_tilde) {
     invisible(.Call(`_ohoegdm_update_slipping_guessing`, slipping, guessing, ab_tilde))
 }
 
-parm_update_nomiss <- function(N, J, K, nClass, M, Y, Yast, BETA, TAU, CLASS, theta, lambda, tau, Q, DELTA, Q_prime, ETA_prime, slipping, guessing, omega, vv, CLtable, Atable, LBtable, Bindices, qtable, P, l1, m0, l0, bq, ABETA, ABETA_sqnorm, PY_a, MHaccept, sdMH, loglike) {
-    .Call(`_ohoegdm_parm_update_nomiss`, N, J, K, nClass, M, Y, Yast, BETA, TAU, CLASS, theta, lambda, tau, Q, DELTA, Q_prime, ETA_prime, slipping, guessing, omega, vv, CLtable, Atable, LBtable, Bindices, qtable, P, l1, m0, l0, bq, ABETA, ABETA_sqnorm, PY_a, MHaccept, sdMH, loglike)
+parm_update_nomiss <- function(N, J, K, nClass, M, Y, Yast, BETA, KAPPA, CLASS, theta, lambda, Tau, Q, DELTA, Q_prime, ETA_prime, slipping, guessing, omega, vv, CLtable, Atable, LBtable, Bindices, qtable, P, l1, m0, l0, bq, ABETA, ABETA_sqnorm, PY_a, MHaccept, sdMH, loglike) {
+    .Call(`_ohoegdm_parm_update_nomiss`, N, J, K, nClass, M, Y, Yast, BETA, KAPPA, CLASS, theta, lambda, Tau, Q, DELTA, Q_prime, ETA_prime, slipping, guessing, omega, vv, CLtable, Atable, LBtable, Bindices, qtable, P, l1, m0, l0, bq, ABETA, ABETA_sqnorm, PY_a, MHaccept, sdMH, loglike)
 }
 
 kappa_initialize <- function(M, J) {

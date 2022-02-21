@@ -288,7 +288,7 @@ arma::vec Pa1(unsigned int K, double theta, const arma::vec &lambda0,
 // [[Rcpp::export]]
 double slcm_m2LL_HO(unsigned int N, unsigned int J, unsigned int M,
                     unsigned int nClass, unsigned int K, const arma::mat &Y,
-                    const arma::vec &theta, const arma::vec &tau,
+                    const arma::vec &theta, const arma::vec &Tau,
                     const arma::vec &lambda, const arma::cube &PY_a,
                     const arma::mat &CLtable)
 {
@@ -297,7 +297,7 @@ double slcm_m2LL_HO(unsigned int N, unsigned int J, unsigned int M,
     for (unsigned int i = 0; i < N; i++) {
         arma::rowvec Yi = Y.row(i);
         double theta_i = theta(i);
-        arma::vec Pa1i = Pa1(K, theta_i, tau, lambda);
+        arma::vec Pa1i = Pa1(K, theta_i, Tau, lambda);
         double Li = 0.;
         for (unsigned int cc = 0; cc < nClass; cc++) {
             double py_a = 1.;
@@ -355,7 +355,7 @@ double slcm_LLjm(unsigned int N, unsigned int M, unsigned int m,
 }
 
 // [[Rcpp::export]]
-arma::rowvec sampletauast(unsigned int M, const arma::rowvec &Kaps, double sdMH)
+arma::rowvec sampleTauast(unsigned int M, const arma::rowvec &Kaps, double sdMH)
 {
     arma::vec pk_on(2);
     arma::rowvec KapsMH = Kaps;
@@ -504,7 +504,7 @@ void lambda_sample(unsigned int K, arma::vec &lambda, const arma::vec &m_lam,
 // }
 
 // [[Rcpp::export]]
-void sampletauYast(unsigned int N, unsigned int J, unsigned int M,
+void sampleTauYast(unsigned int N, unsigned int J, unsigned int M,
                    unsigned int nClass, const arma::mat &Y, arma::mat &KAPPA,
                    arma::mat &Yast, const arma::mat &ABETA, arma::cube &PY_a,
                    const arma::vec &CLASS, arma::vec &MHaccept, double sdMH)
@@ -516,7 +516,7 @@ void sampletauYast(unsigned int N, unsigned int J, unsigned int M,
         arma::rowvec ABETAj = ABETA.row(j);
         arma::rowvec Kaps = KAPPA.row(j);
         // Sample MH Threshold candidates
-        arma::rowvec KapsMH = sampletauast(M, Kaps, sdMH);
+        arma::rowvec KapsMH = sampleTauast(M, Kaps, sdMH);
         // Step 1a: compute m part related to thresholds
         double lnmpart = .0;
         for (unsigned int m = 1; m < M - 1; m++) {
@@ -707,7 +707,7 @@ double parm_update_nomiss(
     unsigned int N, unsigned int J, unsigned int K, unsigned int nClass,
     unsigned int M, const arma::mat &Y, arma::mat &Yast, arma::mat &BETA,
     arma::mat &KAPPA, arma::vec &CLASS, arma::vec &theta, arma::vec &lambda,
-    arma::vec &tau, arma::mat &Q, 
+    arma::vec &Tau, arma::mat &Q, 
     arma::mat &DELTA,
     const arma::mat &Q_prime,
     const arma::mat &ETA_prime,
@@ -724,7 +724,7 @@ double parm_update_nomiss(
     arma::mat ab_tilde = arma::zeros<arma::mat>(2, 2);
     
     // update KAPPA and Yast
-    sampletauYast(N, J, M, nClass, Y, KAPPA, Yast, ABETA, PY_a, CLASS, MHaccept,
+    sampleTauYast(N, J, M, nClass, Y, KAPPA, Yast, ABETA, PY_a, CLASS, MHaccept,
                   sdMH);
 
     // update classes + store info for Betas and pi
@@ -743,7 +743,7 @@ double parm_update_nomiss(
         double theta_i = theta(i);
         arma::vec numerator(nClass);
         double denominator = 0.;
-        arma::vec Pa1i = Pa1(K, theta_i, tau, lambda);
+        arma::vec Pa1i = Pa1(K, theta_i, Tau, lambda);
         for (unsigned int cc = 0; cc < nClass; cc++) {
             double picc = 1.;
             arma::vec ai = CLtable.col(cc);
@@ -791,12 +791,12 @@ double parm_update_nomiss(
             paik(0) = 0.;
             paik(1) = 1. - paik1;
             paik(2) = 1.;
-            mean_i(k) = tau(k) + lambda(k) * theta_i;
+            mean_i(k) = Tau(k) + lambda(k) * theta_i;
             double aikast = rTruncNorm(mean_i(k), 1., aik, paik);
             aiast(k) = aikast;
         }
         // update theta
-        arma::vec Wtilde_lam = aiast - tau;
+        arma::vec Wtilde_lam = aiast - Tau;
         double m_theta = v_theta * arma::dot(Wtilde_lam, lambda);
         theta_i = R::rnorm(m_theta, sd_theta);
 
@@ -805,24 +805,24 @@ double parm_update_nomiss(
         theta(i) = theta_i;
     }
     // arma::vec oneN=arma::ones<arma::vec>(N);
-    double s2tau_inv = 3.;
-    // update tau + s2tau_inv
-    double v_tau = 1. / (s2tau_inv + double(N));
-    // arma::rowvec m_taus = v_tau*arma::sum( W-theta*lambda.t(),0);
-    // tau = arma::randn<arma::vec>(K)*sqrt(v_tau)+m_taus.t();
-    arma::vec m_taus = v_tau * Aastmthetalambda;
-    tau = arma::randn<arma::vec>(K) * sqrt(v_tau) + m_taus;
-    // arma::rowvec m_taus = v_tau*arma::sum( Aast-theta*lambda.t(),0);
-    // tau = arma::randn<arma::vec>(K)*sqrt(v_tau)+m_taus.t();
+    double s2Tau_inv = 3.;
+    // update Tau + s2Tau_inv
+    double v_Tau = 1. / (s2Tau_inv + double(N));
+    // arma::rowvec m_Taus = v_Tau*arma::sum( W-theta*lambda.t(),0);
+    // Tau = arma::randn<arma::vec>(K)*sqrt(v_Tau)+m_Taus.t();
+    arma::vec m_Taus = v_Tau * Aastmthetalambda;
+    Tau = arma::randn<arma::vec>(K) * sqrt(v_Tau) + m_Taus;
+    // arma::rowvec m_Taus = v_Tau*arma::sum( Aast-theta*lambda.t(),0);
+    // Tau = arma::randn<arma::vec>(K)*sqrt(v_Tau)+m_Taus.t();
 
-    // double s2tau_inv_new = 1.;
+    // double s2Tau_inv_new = 1.;
     // update lambda + s2lam_inv
     double s2lam_inv = 2;
     double v_lam = 1. / (arma::dot(theta, theta) + s2lam_inv); // /double(K);
-    // arma::mat Wtilde_lam = W-oneN*tau.t();
+    // arma::mat Wtilde_lam = W-oneN*Tau.t();
     // arma::vec m_lams=v_lam*(Wtilde_lam.t()*theta);
-    arma::vec Aastmtautheta = Aasttheta - arma::accu(theta) * tau;
-    arma::vec m_lams = v_lam * Aastmtautheta;
+    arma::vec AastmTautheta = Aasttheta - arma::accu(theta) * Tau;
+    arma::vec m_lams = v_lam * AastmTautheta;
     // arma::vec lambda_k(1);
     // arma::vec oneK = arma::ones<arma::vec>(K);
     // lambda_sample(1,lambda_k,oneK.t()*m_lams,v_lam);
@@ -1277,7 +1277,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
     arma::mat Q_item_encoded(J, chain_length);
     
     // need to initialize parameters
-    arma::vec tau = arma::zeros<arma::vec>(K);
+    arma::vec Tau = arma::zeros<arma::vec>(K);
     arma::vec lambda = arma::ones<arma::vec>(K) * .5;
     arma::vec theta = arma::randn<arma::vec>(N);
     arma::mat KAPPA = kappa_initialize(M, J);
@@ -1385,12 +1385,12 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
     arma::mat CLs(N, chain_length);
     arma::mat PIs(nClass, chain_length);
     arma::vec omegas(chain_length);
-    // arma::vec omegataus(chain_length);
+    // arma::vec omegaTaus(chain_length);
     arma::cube KAPPAs = arma::cube(J, M - 1, chain_length);
     // arma::mat mKAPPAs=arma::cube(J,M-1);
     arma::vec mtheta = arma::zeros<arma::vec>(N);
     // arma::mat D_tab=arma::zeros<arma::mat>(J,P);
-    arma::mat taus(K, chain_length);
+    arma::mat Taus(K, chain_length);
     arma::mat lambdas(K, chain_length);
     arma::mat Q_tab = arma::zeros<arma::mat>(J, K);
     
@@ -1405,7 +1405,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
     // Start Markov chain
     for (unsigned int t = 0; t < chain_length_plus_burnin; t++) {
         omega = parm_update_nomiss(
-            N, J, K, nClass, M, Y, Yast, BETA, KAPPA, CLASS, theta, lambda, tau,
+            N, J, K, nClass, M, Y, Yast, BETA, KAPPA, CLASS, theta, lambda, Tau,
             Q, 
             DELTA,
             Q_prime,
@@ -1462,7 +1462,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
             omegas(tmburn) = omega;
             MHsum += MHaccept;
             // MHaccept=arma::zeros<arma::vec>(J);
-            taus.col(tmburn) = tau;
+            Taus.col(tmburn) = Tau;
             lambdas.col(tmburn) = lambda;
         }
     }
@@ -1482,7 +1482,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
         Rcpp::Named("GUESS", GUESS),
         Rcpp::Named("SLIP", SLIP),
         Rcpp::Named("KAPPAs", KAPPAs), // CHANGE IN THE CODE ABOVE
-        Rcpp::Named("Taus", taus),  // CHANGE IN THE CODE ABOVE
+        Rcpp::Named("Taus", Taus),  // CHANGE IN THE CODE ABOVE
         Rcpp::Named("m2lls", m2lls),
         Rcpp::Named("omegas", omegas),
         Rcpp::Named("lambdas", lambdas),

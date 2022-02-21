@@ -103,8 +103,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // simSLCM
-arma::mat simSLCM(unsigned int N, unsigned int J, unsigned int M, unsigned int nClass, const arma::vec& CLASS, const arma::mat& Atable, const arma::mat& BETA, const arma::mat& TAU);
-RcppExport SEXP _ohoegdm_simSLCM(SEXP NSEXP, SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP CLASSSEXP, SEXP AtableSEXP, SEXP BETASEXP, SEXP TAUSEXP) {
+arma::mat simSLCM(unsigned int N, unsigned int J, unsigned int M, unsigned int nClass, const arma::vec& CLASS, const arma::mat& Atable, const arma::mat& BETA, const arma::mat& KAPPA);
+RcppExport SEXP _ohoegdm_simSLCM(SEXP NSEXP, SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP CLASSSEXP, SEXP AtableSEXP, SEXP BETASEXP, SEXP KAPPASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -115,8 +115,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::vec& >::type CLASS(CLASSSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type Atable(AtableSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type BETA(BETASEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type TAU(TAUSEXP);
-    rcpp_result_gen = Rcpp::wrap(simSLCM(N, J, M, nClass, CLASS, Atable, BETA, TAU));
+    Rcpp::traits::input_parameter< const arma::mat& >::type KAPPA(KAPPASEXP);
+    rcpp_result_gen = Rcpp::wrap(simSLCM(N, J, M, nClass, CLASS, Atable, BETA, KAPPA));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -135,8 +135,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // computePYaj
-arma::mat computePYaj(unsigned int J, unsigned int M, unsigned int nClass, const arma::rowvec& ABETAj, const arma::rowvec& TAUj);
-RcppExport SEXP _ohoegdm_computePYaj(SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP ABETAjSEXP, SEXP TAUjSEXP) {
+arma::mat computePYaj(unsigned int J, unsigned int M, unsigned int nClass, const arma::rowvec& ABETAj, const arma::rowvec& KAPPAj);
+RcppExport SEXP _ohoegdm_computePYaj(SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP ABETAjSEXP, SEXP KAPPAjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -144,14 +144,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< unsigned int >::type M(MSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type nClass(nClassSEXP);
     Rcpp::traits::input_parameter< const arma::rowvec& >::type ABETAj(ABETAjSEXP);
-    Rcpp::traits::input_parameter< const arma::rowvec& >::type TAUj(TAUjSEXP);
-    rcpp_result_gen = Rcpp::wrap(computePYaj(J, M, nClass, ABETAj, TAUj));
+    Rcpp::traits::input_parameter< const arma::rowvec& >::type KAPPAj(KAPPAjSEXP);
+    rcpp_result_gen = Rcpp::wrap(computePYaj(J, M, nClass, ABETAj, KAPPAj));
     return rcpp_result_gen;
 END_RCPP
 }
 // computePYa
-Rcpp::List computePYa(unsigned int J, unsigned int M, unsigned int nClass, const arma::mat& Atable, const arma::mat& BETA, const arma::mat& TAU);
-RcppExport SEXP _ohoegdm_computePYa(SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP AtableSEXP, SEXP BETASEXP, SEXP TAUSEXP) {
+Rcpp::List computePYa(unsigned int J, unsigned int M, unsigned int nClass, const arma::mat& Atable, const arma::mat& BETA, const arma::mat& KAPPA);
+RcppExport SEXP _ohoegdm_computePYa(SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP AtableSEXP, SEXP BETASEXP, SEXP KAPPASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -160,8 +160,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< unsigned int >::type nClass(nClassSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type Atable(AtableSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type BETA(BETASEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type TAU(TAUSEXP);
-    rcpp_result_gen = Rcpp::wrap(computePYa(J, M, nClass, Atable, BETA, TAU));
+    Rcpp::traits::input_parameter< const arma::mat& >::type KAPPA(KAPPASEXP);
+    rcpp_result_gen = Rcpp::wrap(computePYa(J, M, nClass, Atable, BETA, KAPPA));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -197,8 +197,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // slcm_m2LL_HO
-double slcm_m2LL_HO(unsigned int N, unsigned int J, unsigned int M, unsigned int nClass, unsigned int K, const arma::mat& Y, const arma::vec& theta, const arma::vec& tau, const arma::vec& lambda, const arma::cube& PY_a, const arma::mat& CLtable);
-RcppExport SEXP _ohoegdm_slcm_m2LL_HO(SEXP NSEXP, SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP KSEXP, SEXP YSEXP, SEXP thetaSEXP, SEXP tauSEXP, SEXP lambdaSEXP, SEXP PY_aSEXP, SEXP CLtableSEXP) {
+double slcm_m2LL_HO(unsigned int N, unsigned int J, unsigned int M, unsigned int nClass, unsigned int K, const arma::mat& Y, const arma::vec& theta, const arma::vec& Tau, const arma::vec& lambda, const arma::cube& PY_a, const arma::mat& CLtable);
+RcppExport SEXP _ohoegdm_slcm_m2LL_HO(SEXP NSEXP, SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP KSEXP, SEXP YSEXP, SEXP thetaSEXP, SEXP TauSEXP, SEXP lambdaSEXP, SEXP PY_aSEXP, SEXP CLtableSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -209,11 +209,11 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< unsigned int >::type K(KSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type Tau(TauSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type lambda(lambdaSEXP);
     Rcpp::traits::input_parameter< const arma::cube& >::type PY_a(PY_aSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type CLtable(CLtableSEXP);
-    rcpp_result_gen = Rcpp::wrap(slcm_m2LL_HO(N, J, M, nClass, K, Y, theta, tau, lambda, PY_a, CLtable));
+    rcpp_result_gen = Rcpp::wrap(slcm_m2LL_HO(N, J, M, nClass, K, Y, theta, Tau, lambda, PY_a, CLtable));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -252,16 +252,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sampletauast
-arma::rowvec sampletauast(unsigned int M, const arma::rowvec& Kaps, double sdMH);
-RcppExport SEXP _ohoegdm_sampletauast(SEXP MSEXP, SEXP KapsSEXP, SEXP sdMHSEXP) {
+// sampleTauast
+arma::rowvec sampleTauast(unsigned int M, const arma::rowvec& Kaps, double sdMH);
+RcppExport SEXP _ohoegdm_sampleTauast(SEXP MSEXP, SEXP KapsSEXP, SEXP sdMHSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< unsigned int >::type M(MSEXP);
     Rcpp::traits::input_parameter< const arma::rowvec& >::type Kaps(KapsSEXP);
     Rcpp::traits::input_parameter< double >::type sdMH(sdMHSEXP);
-    rcpp_result_gen = Rcpp::wrap(sampletauast(M, Kaps, sdMH));
+    rcpp_result_gen = Rcpp::wrap(sampleTauast(M, Kaps, sdMH));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -322,9 +322,9 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// sampletauYast
-void sampletauYast(unsigned int N, unsigned int J, unsigned int M, unsigned int nClass, const arma::mat& Y, arma::mat& TAU, arma::mat& Yast, const arma::mat& ABETA, arma::cube& PY_a, const arma::vec& CLASS, arma::vec& MHaccept, double sdMH);
-RcppExport SEXP _ohoegdm_sampletauYast(SEXP NSEXP, SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP YSEXP, SEXP TAUSEXP, SEXP YastSEXP, SEXP ABETASEXP, SEXP PY_aSEXP, SEXP CLASSSEXP, SEXP MHacceptSEXP, SEXP sdMHSEXP) {
+// sampleTauYast
+void sampleTauYast(unsigned int N, unsigned int J, unsigned int M, unsigned int nClass, const arma::mat& Y, arma::mat& KAPPA, arma::mat& Yast, const arma::mat& ABETA, arma::cube& PY_a, const arma::vec& CLASS, arma::vec& MHaccept, double sdMH);
+RcppExport SEXP _ohoegdm_sampleTauYast(SEXP NSEXP, SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP YSEXP, SEXP KAPPASEXP, SEXP YastSEXP, SEXP ABETASEXP, SEXP PY_aSEXP, SEXP CLASSSEXP, SEXP MHacceptSEXP, SEXP sdMHSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< unsigned int >::type N(NSEXP);
@@ -332,14 +332,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< unsigned int >::type M(MSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type nClass(nClassSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type TAU(TAUSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type KAPPA(KAPPASEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type Yast(YastSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type ABETA(ABETASEXP);
     Rcpp::traits::input_parameter< arma::cube& >::type PY_a(PY_aSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type CLASS(CLASSSEXP);
     Rcpp::traits::input_parameter< arma::vec& >::type MHaccept(MHacceptSEXP);
     Rcpp::traits::input_parameter< double >::type sdMH(sdMHSEXP);
-    sampletauYast(N, J, M, nClass, Y, TAU, Yast, ABETA, PY_a, CLASS, MHaccept, sdMH);
+    sampleTauYast(N, J, M, nClass, Y, KAPPA, Yast, ABETA, PY_a, CLASS, MHaccept, sdMH);
     return R_NilValue;
 END_RCPP
 }
@@ -405,8 +405,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // parm_update_nomiss
-double parm_update_nomiss(unsigned int N, unsigned int J, unsigned int K, unsigned int nClass, unsigned int M, const arma::mat& Y, arma::mat& Yast, arma::mat& BETA, arma::mat& TAU, arma::vec& CLASS, arma::vec& theta, arma::vec& lambda, arma::vec& tau, arma::mat& Q, arma::mat& DELTA, const arma::mat& Q_prime, const arma::mat& ETA_prime, double& slipping, double& guessing, double omega, const arma::vec& vv, const arma::mat& CLtable, const arma::mat& Atable, const arma::mat& LBtable, const arma::uvec& Bindices, const arma::mat& qtable, unsigned int P, const arma::vec& l1, double m0, const arma::vec& l0, double bq, arma::mat& ABETA, arma::vec& ABETA_sqnorm, arma::cube& PY_a, arma::vec& MHaccept, double sdMH, double& loglike);
-RcppExport SEXP _ohoegdm_parm_update_nomiss(SEXP NSEXP, SEXP JSEXP, SEXP KSEXP, SEXP nClassSEXP, SEXP MSEXP, SEXP YSEXP, SEXP YastSEXP, SEXP BETASEXP, SEXP TAUSEXP, SEXP CLASSSEXP, SEXP thetaSEXP, SEXP lambdaSEXP, SEXP tauSEXP, SEXP QSEXP, SEXP DELTASEXP, SEXP Q_primeSEXP, SEXP ETA_primeSEXP, SEXP slippingSEXP, SEXP guessingSEXP, SEXP omegaSEXP, SEXP vvSEXP, SEXP CLtableSEXP, SEXP AtableSEXP, SEXP LBtableSEXP, SEXP BindicesSEXP, SEXP qtableSEXP, SEXP PSEXP, SEXP l1SEXP, SEXP m0SEXP, SEXP l0SEXP, SEXP bqSEXP, SEXP ABETASEXP, SEXP ABETA_sqnormSEXP, SEXP PY_aSEXP, SEXP MHacceptSEXP, SEXP sdMHSEXP, SEXP loglikeSEXP) {
+double parm_update_nomiss(unsigned int N, unsigned int J, unsigned int K, unsigned int nClass, unsigned int M, const arma::mat& Y, arma::mat& Yast, arma::mat& BETA, arma::mat& KAPPA, arma::vec& CLASS, arma::vec& theta, arma::vec& lambda, arma::vec& Tau, arma::mat& Q, arma::mat& DELTA, const arma::mat& Q_prime, const arma::mat& ETA_prime, double& slipping, double& guessing, double omega, const arma::vec& vv, const arma::mat& CLtable, const arma::mat& Atable, const arma::mat& LBtable, const arma::uvec& Bindices, const arma::mat& qtable, unsigned int P, const arma::vec& l1, double m0, const arma::vec& l0, double bq, arma::mat& ABETA, arma::vec& ABETA_sqnorm, arma::cube& PY_a, arma::vec& MHaccept, double sdMH, double& loglike);
+RcppExport SEXP _ohoegdm_parm_update_nomiss(SEXP NSEXP, SEXP JSEXP, SEXP KSEXP, SEXP nClassSEXP, SEXP MSEXP, SEXP YSEXP, SEXP YastSEXP, SEXP BETASEXP, SEXP KAPPASEXP, SEXP CLASSSEXP, SEXP thetaSEXP, SEXP lambdaSEXP, SEXP TauSEXP, SEXP QSEXP, SEXP DELTASEXP, SEXP Q_primeSEXP, SEXP ETA_primeSEXP, SEXP slippingSEXP, SEXP guessingSEXP, SEXP omegaSEXP, SEXP vvSEXP, SEXP CLtableSEXP, SEXP AtableSEXP, SEXP LBtableSEXP, SEXP BindicesSEXP, SEXP qtableSEXP, SEXP PSEXP, SEXP l1SEXP, SEXP m0SEXP, SEXP l0SEXP, SEXP bqSEXP, SEXP ABETASEXP, SEXP ABETA_sqnormSEXP, SEXP PY_aSEXP, SEXP MHacceptSEXP, SEXP sdMHSEXP, SEXP loglikeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -418,11 +418,11 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type Yast(YastSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type BETA(BETASEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type TAU(TAUSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type KAPPA(KAPPASEXP);
     Rcpp::traits::input_parameter< arma::vec& >::type CLASS(CLASSSEXP);
     Rcpp::traits::input_parameter< arma::vec& >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< arma::vec& >::type lambda(lambdaSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type Tau(TauSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type Q(QSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type DELTA(DELTASEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type Q_prime(Q_primeSEXP);
@@ -447,7 +447,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec& >::type MHaccept(MHacceptSEXP);
     Rcpp::traits::input_parameter< double >::type sdMH(sdMHSEXP);
     Rcpp::traits::input_parameter< double& >::type loglike(loglikeSEXP);
-    rcpp_result_gen = Rcpp::wrap(parm_update_nomiss(N, J, K, nClass, M, Y, Yast, BETA, TAU, CLASS, theta, lambda, tau, Q, DELTA, Q_prime, ETA_prime, slipping, guessing, omega, vv, CLtable, Atable, LBtable, Bindices, qtable, P, l1, m0, l0, bq, ABETA, ABETA_sqnorm, PY_a, MHaccept, sdMH, loglike));
+    rcpp_result_gen = Rcpp::wrap(parm_update_nomiss(N, J, K, nClass, M, Y, Yast, BETA, KAPPA, CLASS, theta, lambda, Tau, Q, DELTA, Q_prime, ETA_prime, slipping, guessing, omega, vv, CLtable, Atable, LBtable, Bindices, qtable, P, l1, m0, l0, bq, ABETA, ABETA_sqnorm, PY_a, MHaccept, sdMH, loglike));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -560,12 +560,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ohoegdm_slcm_m2LL_HO", (DL_FUNC) &_ohoegdm_slcm_m2LL_HO, 11},
     {"_ohoegdm_slcm_LLj", (DL_FUNC) &_ohoegdm_slcm_LLj, 7},
     {"_ohoegdm_slcm_LLjm", (DL_FUNC) &_ohoegdm_slcm_LLjm, 8},
-    {"_ohoegdm_sampletauast", (DL_FUNC) &_ohoegdm_sampletauast, 3},
+    {"_ohoegdm_sampleTauast", (DL_FUNC) &_ohoegdm_sampleTauast, 3},
     {"_ohoegdm_computeLowerBound_Bp", (DL_FUNC) &_ohoegdm_computeLowerBound_Bp, 6},
     {"_ohoegdm_computeLB", (DL_FUNC) &_ohoegdm_computeLB, 7},
     {"_ohoegdm_identify_check", (DL_FUNC) &_ohoegdm_identify_check, 1},
     {"_ohoegdm_lambda_sample", (DL_FUNC) &_ohoegdm_lambda_sample, 4},
-    {"_ohoegdm_sampletauYast", (DL_FUNC) &_ohoegdm_sampletauYast, 12},
+    {"_ohoegdm_sampleTauYast", (DL_FUNC) &_ohoegdm_sampleTauYast, 12},
     {"_ohoegdm_Q_prime_matrix", (DL_FUNC) &_ohoegdm_Q_prime_matrix, 3},
     {"_ohoegdm_eta_dina_matrix", (DL_FUNC) &_ohoegdm_eta_dina_matrix, 1},
     {"_ohoegdm_pnorm_ln_upper_tail", (DL_FUNC) &_ohoegdm_pnorm_ln_upper_tail, 2},
