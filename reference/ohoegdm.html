@@ -67,7 +67,7 @@ Exploratory Framework (OHOEGDM)</h1>
   <span class="va">k</span>,
   m <span class="op">=</span> <span class="fl">2</span>,
   order <span class="op">=</span> <span class="va">k</span>,
-  sdMH <span class="op">=</span> <span class="fl">0.4</span>,
+  sd_mh <span class="op">=</span> <span class="fl">0.4</span>,
   burnin <span class="op">=</span> <span class="fl">1000L</span>,
   chain_length <span class="op">=</span> <span class="fl">10000L</span>,
   l0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Special.html" class="external-link">choose</a></span><span class="op">(</span><span class="va">k</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">order</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
@@ -80,50 +80,75 @@ Exploratory Framework (OHOEGDM)</h1>
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>y</dt>
-<dd><p>Item Matrix</p></dd>
+<dd><p>Ordinal Item Matrix</p></dd>
 <dt>k</dt>
 <dd><p>Dimension to estimate for Q matrix</p></dd>
 <dt>m</dt>
 <dd><p>Number of Item Categories. Default is <code>2</code> matching the binary case.</p></dd>
 <dt>order</dt>
 <dd><p>Highest interaction order to consider. Default model-specified <code>k</code>.</p></dd>
-<dt>sdMH</dt>
+<dt>sd_mh</dt>
 <dd><p>Metropolis-Hastings standard deviation tuning parameter.</p></dd>
 <dt>burnin</dt>
 <dd><p>Amount of Draws to Burn</p></dd>
 <dt>chain_length</dt>
 <dd><p>Number of Iterations for chain.</p></dd>
-<dt>l0, l1, m0, bq</dt>
+<dt>l0</dt>
+<dd><p>Spike parameter. Default 1 for intercept and 100
+coefficients</p></dd>
+<dt>l1</dt>
+<dd><p>Slab parameter. Default 1 for all values.</p></dd>
+<dt>m0, bq</dt>
 <dd><p>Additional tuning parameters.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>egdm_delta</code> object containing three named lists:
-<strong><code>estimates</code></strong></p><ul><li><p><code>thetas</code>: Average theta coefficients</p></li>
+    <p>A <code>ohoegdm</code> object containing four named lists:
+<strong><code>estimates</code></strong>: Averaged chain iterations</p><ul><li><p><code>thetas</code>: Average theta coefficients</p></li>
 <li><p><code>betas</code>: Average beta coefficients</p></li>
-<li><p><code>class</code>: Average class membership</p></li>
-<li><p><code>pi</code>: Average attribute class probability.</p></li>
-<li><p><code>omega</code>: Average omega</p></li>
-</ul><p><strong><code>chain</code></strong></p><ul><li><p><code>thetas</code>: theta coefficients iterations</p></li>
-<li><p><code>betas</code>:  beta coefficients iterations</p></li>
-<li><p><code>class</code>:  class membership iterations</p></li>
-<li><p><code>omega</code>:  omega iterations</p></li>
-</ul><p><strong><code>details</code></strong></p><ul><li><p><code>n</code>: Number of Subjects</p></li>
+<li><p><code>deltas</code>: Average activeness of coefficients</p></li>
+<li><p><code>classes</code>: Average class membership</p></li>
+<li><p><code>m2lls</code>: Average negative two times log-likelihood</p></li>
+<li><p><code>omegas</code>: Average omega</p></li>
+<li><p><code>kappas</code> : Average category threshold parameter</p></li>
+<li><p><code>taus</code>: Average $K$-vectors of factor intercept</p></li>
+<li><p><code>lambdas</code>: Average $K$-vectors of factor loadings</p></li>
+<li><p><code>guessing</code>: Average guessing item parameter</p></li>
+<li><p><code>slipping</code>: Average slipping item parameter</p></li>
+<li><p><code>QS</code>: Average activeness of Q matrix entries</p></li>
+<li><p><code>MHsum</code>: Average acceptance from metropolis hastings sampler</p></li>
+</ul><p><strong><code>chain</code></strong>: Chain iterations from the underlying <em>C++</em> rountine.</p><ul><li><p><code>thetas</code>: Theta coefficients iterations</p></li>
+<li><p><code>betas</code>:  Beta coefficients iterations</p></li>
+<li><p><code>deltas</code>: Activeness of coefficients iterations</p></li>
+<li><p><code>classes</code>:  Class membership iterations</p></li>
+<li><p><code>m2lls</code>: Negative two times log-likelihood iterations</p></li>
+<li><p><code>omegas</code>:  Omega iterations</p></li>
+<li><p><code>kappas</code> : Category threshold parameter iterations</p></li>
+<li><p><code>taus</code>: $K$-vectors of factor intercept iterations</p></li>
+<li><p><code>lambdas</code>: $K$-vectors of factor loadings iterations</p></li>
+<li><p><code>guessing</code>: Guessing item parameter iterations</p></li>
+<li><p><code>slipping</code>: Slipping item parameter iterations</p></li>
+</ul><p><strong><code>details</code></strong>: Properties used to estimate the model</p><ul><li><p><code>n</code>: Number of Subjects</p></li>
 <li><p><code>j</code>: Number of Items</p></li>
 <li><p><code>k</code>: Number of Traits</p></li>
+<li><p><code>m</code>: Number of Item Categories.</p></li>
 <li><p><code>order</code>: Highest interaction order to consider. Default model-specified <code>k</code>.</p></li>
-<li><p><code>sdMH</code>: Metropolis-Hastings standard deviation tuning parameter.</p></li>
+<li><p><code>sd_mh</code>: Metropolis-Hastings standard deviation tuning parameter.</p></li>
 <li><p><code>l0</code>: Spike parameter</p></li>
 <li><p><code>l1</code>: Slab parameter</p></li>
 <li><p><code>m0</code>, <code>bq</code>: Additional tuning parameters</p></li>
 <li><p><code>burnin</code>: Number of Iterations to discard</p></li>
 <li><p><code>chain_length</code>: Number of Iterations to keep</p></li>
+<li><p><code>runtime</code>: Elapsed time algorithm run time in the <em>C++</em> code.</p></li>
+</ul><p><strong><code>recovery</code></strong>: Assess recovery metrics under a simulation study.</p><ul><li><p><code>Q_item_encoded</code>: Per-iteration item encodings from Q matrix.</p></li>
 </ul></div>
     <div id="details">
     <h2>Details</h2>
     <p>The <strong><code>estimates</code></strong> list contains the mean information from the sampling
-procedure. Meanwhile, the <strong><code>chain</code></strong> list contains full MCMC values. Lastly,
-the <strong><code>details</code></strong> list provides information regarding the estimation call.</p>
+procedure. Meanwhile, the <strong><code>chain</code></strong> list contains full MCMC values. Moreover,
+the <strong><code>details</code></strong> list provides information regarding the estimation call.
+Lastly, the <strong><code>recovery</code></strong> list stores values that can be used when
+assessing the method under a simulation study.</p>
     </div>
 
     <div id="ref-examples">
@@ -206,7 +231,7 @@ the <strong><code>details</code></strong> list provides information regarding th
 <span class="r-in"><span class="co"># If sample size is:</span></span>
 <span class="r-in"><span class="co">#  - small, allow for larger standard deviation</span></span>
 <span class="r-in"><span class="co">#  - large, allow for smaller standard deviation.</span></span>
-<span class="r-in"><span class="va">sdMH</span> <span class="op">=</span> <span class="fl">.4</span> </span>
+<span class="r-in"><span class="va">sd_mh</span> <span class="op">=</span> <span class="fl">.4</span> </span>
 <span class="r-in"><span class="va">burnin</span> <span class="op">=</span> <span class="fl">50</span>        <span class="co"># Set for demonstration purposes, increase to at least 5,000 in practice.</span></span>
 <span class="r-in"><span class="va">chain_length</span> <span class="op">=</span> <span class="fl">100</span> <span class="co"># Set for demonstration purposes, increase to at least 40,000 in practice.</span></span>
 <span class="r-in"></span>
@@ -223,7 +248,7 @@ the <strong><code>details</code></strong> list provides information regarding th
 <span class="r-in">  l1 <span class="op">=</span> <span class="va">l1s</span>,</span>
 <span class="r-in">  m0 <span class="op">=</span> <span class="fl">0</span>,</span>
 <span class="r-in">  bq <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">  sdMH <span class="op">=</span> <span class="va">sdMH</span>,</span>
+<span class="r-in">  sd_mh <span class="op">=</span> <span class="va">sd_mh</span>,</span>
 <span class="r-in">  burnin <span class="op">=</span> <span class="va">burnin</span>,</span>
 <span class="r-in">  chain_length <span class="op">=</span> <span class="va">chain_length</span></span>
 <span class="r-in"><span class="op">)</span></span>
