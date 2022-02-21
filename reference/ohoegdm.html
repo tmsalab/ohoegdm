@@ -111,8 +111,8 @@ coefficients</p></dd>
 <li><p><code>m2lls</code>: Average negative two times log-likelihood</p></li>
 <li><p><code>omegas</code>: Average omega</p></li>
 <li><p><code>kappas</code> : Average category threshold parameter</p></li>
-<li><p><code>taus</code>: Average $K$-vectors of factor intercept</p></li>
-<li><p><code>lambdas</code>: Average $K$-vectors of factor loadings</p></li>
+<li><p><code>taus</code>: Average \(K\)-vectors of factor intercept</p></li>
+<li><p><code>lambdas</code>: Average \(K\)-vectors of factor loadings</p></li>
 <li><p><code>guessing</code>: Average guessing item parameter</p></li>
 <li><p><code>slipping</code>: Average slipping item parameter</p></li>
 <li><p><code>QS</code>: Average activeness of Q matrix entries</p></li>
@@ -124,8 +124,8 @@ coefficients</p></dd>
 <li><p><code>m2lls</code>: Negative two times log-likelihood iterations</p></li>
 <li><p><code>omegas</code>:  Omega iterations</p></li>
 <li><p><code>kappas</code> : Category threshold parameter iterations</p></li>
-<li><p><code>taus</code>: $K$-vectors of factor intercept iterations</p></li>
-<li><p><code>lambdas</code>: $K$-vectors of factor loadings iterations</p></li>
+<li><p><code>taus</code>: \(K\)-vectors of factor intercept iterations</p></li>
+<li><p><code>lambdas</code>: \(K\)-vectors of factor loadings iterations</p></li>
 <li><p><code>guessing</code>: Guessing item parameter iterations</p></li>
 <li><p><code>slipping</code>: Slipping item parameter iterations</p></li>
 </ul><p><strong><code>details</code></strong>: Properties used to estimate the model</p><ul><li><p><code>n</code>: Number of Subjects</p></li>
@@ -195,9 +195,9 @@ assessing the method under a simulation study.</p>
 <span class="r-in"><span class="va">beta</span> <span class="op">=</span> <span class="va">beta</span><span class="op">[</span><span class="va">removal_idx</span>,<span class="op">]</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Construct additional parameters for data simulation</span></span>
-<span class="r-in"><span class="va">Tau</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">20</span>, ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co">#mtau</span></span>
-<span class="r-in"><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">1.5</span>, <span class="op">-</span><span class="fl">1.25</span><span class="op">)</span> <span class="co">#mlambdas</span></span>
-<span class="r-in"><span class="va">tau</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span> <span class="co"># mtaus</span></span>
+<span class="r-in"><span class="va">Kappa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">20</span>, ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># mkappa</span></span>
+<span class="r-in"><span class="va">lambda</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">1.5</span>, <span class="op">-</span><span class="fl">1.25</span><span class="op">)</span> <span class="co"># mlambdas</span></span>
+<span class="r-in"><span class="va">tau</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span> <span class="co"># mtaus</span></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Simulation conditions ---- </span></span>
@@ -224,7 +224,7 @@ assessing the method under a simulation study.</p>
 <span class="r-in"><span class="va">CLs</span> <span class="op">&lt;-</span> <span class="va">Alphas</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">vv</span></span>
 <span class="r-in"><span class="va">Atab</span> <span class="op">=</span> <span class="fu">ohoegdm</span><span class="fu">:::</span><span class="fu">GenerateAtable</span><span class="op">(</span><span class="va">Malpha</span> <span class="op">^</span> <span class="va">K</span>, <span class="va">K</span>, <span class="va">Malpha</span>, <span class="va">order</span><span class="op">)</span><span class="op">$</span><span class="va">Atable</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">Ysim</span> <span class="op">=</span> <span class="fu">ohoegdm</span><span class="fu">:::</span><span class="fu">simSLCM</span><span class="op">(</span><span class="va">N</span>, <span class="va">J</span>, <span class="va">M</span>, <span class="va">Malpha</span> <span class="op">^</span> <span class="va">K</span>, <span class="va">CLs</span>, <span class="va">Atab</span>, <span class="va">beta</span>, <span class="va">Tau</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">Ysim</span> <span class="op">=</span> <span class="fu">ohoegdm</span><span class="fu">:::</span><span class="fu">simSLCM</span><span class="op">(</span><span class="va">N</span>, <span class="va">J</span>, <span class="va">M</span>, <span class="va">Malpha</span> <span class="op">^</span> <span class="va">K</span>, <span class="va">CLs</span>, <span class="va">Atab</span>, <span class="va">beta</span>, <span class="va">Kappa</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Establish chain properties </span></span>
 <span class="r-in"><span class="co"># Standard Deviation of MH. Set depending on sample size.</span></span>
