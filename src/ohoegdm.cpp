@@ -1471,26 +1471,31 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
         Rcpp::List::create(
             Rcpp::Named("mtheta", mtheta),
             Rcpp::Named("QS", Q_tab / chain_length),
-            Rcpp::Named("Q_item_encoded", Q_item_encoded),
-            Rcpp::Named("DELTAs", DELTA_tab / chain_length),
+            Rcpp::Named("deltas", DELTA_tab / chain_length),
             Rcpp::Named("MHsum", MHsum / chain_length)
         );
 
     Rcpp::List chain = 
         Rcpp::List::create(
-        Rcpp::Named("BETAS", BETAS),
-        Rcpp::Named("GUESS", GUESS),
-        Rcpp::Named("SLIP", SLIP),
-        Rcpp::Named("KAPPAs", KAPPAs), // CHANGE IN THE CODE ABOVE
-        Rcpp::Named("Taus", Taus),  // CHANGE IN THE CODE ABOVE
+        Rcpp::Named("betas", BETAS),
+        Rcpp::Named("guessing", GUESS),
+        Rcpp::Named("slipping", SLIP),
+        Rcpp::Named("kappas", KAPPAs), // CHANGE IN THE CODE ABOVE
+        Rcpp::Named("taus", Taus),  // CHANGE IN THE CODE ABOVE
         Rcpp::Named("m2lls", m2lls),
         Rcpp::Named("omegas", omegas),
         Rcpp::Named("lambdas", lambdas),
-        Rcpp::Named("CLs", CLs)
+        Rcpp::Named("classes", CLs)
         );
+
+    Rcpp::List recovery = 
+      Rcpp::List::create(
+        Rcpp::Named("Q_item_encoded", Q_item_encoded)
+      );
     
     return Rcpp::List::create(
         Rcpp::Named("estimates", estimates),
-        Rcpp::Named("chain", chain)
-        );
+        Rcpp::Named("chain", chain),
+        Rcpp::Named("recovery", recovery)
+    );
 }
