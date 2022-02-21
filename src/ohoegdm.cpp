@@ -1471,8 +1471,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
         Rcpp::List::create(
             Rcpp::Named("mtheta", mtheta),
             Rcpp::Named("QS", Q_tab / chain_length),
-            Rcpp::Named("deltas", DELTA_tab / chain_length),
-            Rcpp::Named("MHsum", MHsum / chain_length)
+            Rcpp::Named("deltas", DELTA_tab / chain_length)
         );
 
     Rcpp::List chain = 
@@ -1490,7 +1489,8 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
 
     Rcpp::List recovery = 
       Rcpp::List::create(
-        Rcpp::Named("Q_item_encoded", Q_item_encoded)
+        Rcpp::Named("Q_item_encoded", Q_item_encoded),
+        Rcpp::Named("MHsum", MHsum / chain_length)
       );
     
     return Rcpp::List::create(

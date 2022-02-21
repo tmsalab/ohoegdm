@@ -34,7 +34,7 @@ fit_model =
 ## Analyze model results ---- 
 
 ### Check MH acceptance
-fit_model$estimates$MHsum
+fit_model$recoovery$MHsum
 
 ### Disabled on release, please uncomment and recompile in src/ if needed
 ### PPP results 

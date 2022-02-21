@@ -58,7 +58,6 @@ A \code{ohoegdm} object containing four named lists:
 \item \code{guessing}: Average guessing item parameter
 \item \code{slipping}: Average slipping item parameter
 \item \code{QS}: Average activeness of Q matrix entries
-\item \code{MHsum}: Average acceptance from metropolis hastings sampler
 }
 
 \strong{\code{chain}}: Chain iterations from the underlying \emph{C++} rountine.
@@ -95,10 +94,11 @@ A \code{ohoegdm} object containing four named lists:
 \strong{\code{recovery}}: Assess recovery metrics under a simulation study.
 \itemize{
 \item \code{Q_item_encoded}: Per-iteration item encodings from Q matrix.
+\item \code{MHsum}: Average acceptance from metropolis hastings sampler
 }
 }
 \description{
-Performs the Gibbs sampling routine for a higher-order EGDM.
+Performs the Gibbs sampling routine for an ordinal higher-order EGDM.
 }
 \details{
 The \strong{\code{estimates}} list contains the mean information from the sampling

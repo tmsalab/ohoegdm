@@ -22,7 +22,7 @@ new_ohoegdm_model = function(model_mcmc,
 #' Ordinal Higher-Order General Diagnostic Model under the
 #' Exploratory Framework (OHOEGDM)
 #'
-#' Performs the Gibbs sampling routine for a higher-order EGDM.
+#' Performs the Gibbs sampling routine for an ordinal higher-order EGDM.
 #'
 #' @param y                 Ordinal Item Matrix
 #' @param k                 Dimension to estimate for Q matrix
@@ -53,7 +53,6 @@ new_ohoegdm_model = function(model_mcmc,
 #' - `guessing`: Average guessing item parameter
 #' - `slipping`: Average slipping item parameter
 #' - `QS`: Average activeness of Q matrix entries
-#' - `MHsum`: Average acceptance from metropolis hastings sampler
 #' 
 #' **`chain`**: Chain iterations from the underlying _C++_ rountine.
 #'
@@ -87,6 +86,7 @@ new_ohoegdm_model = function(model_mcmc,
 #' **`recovery`**: Assess recovery metrics under a simulation study.
 #' 
 #' - `Q_item_encoded`: Per-iteration item encodings from Q matrix.
+#' - `MHsum`: Average acceptance from metropolis hastings sampler
 #' 
 #' @details
 #'
