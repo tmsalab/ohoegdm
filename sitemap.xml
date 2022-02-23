@@ -16,6 +16,12 @@
     <loc>https://tmsalab.github.io/ohoegdm/news/index.html</loc>
   </url>
   <url>
+    <loc>https://tmsalab.github.io/ohoegdm/reference/GenerateAtable.html</loc>
+  </url>
+  <url>
+    <loc>https://tmsalab.github.io/ohoegdm/reference/gen_bijectionvector.html</loc>
+  </url>
+  <url>
     <loc>https://tmsalab.github.io/ohoegdm/reference/index.html</loc>
   </url>
   <url>
@@ -23,5 +29,8 @@
   </url>
   <url>
     <loc>https://tmsalab.github.io/ohoegdm/reference/ohoegdm.html</loc>
+  </url>
+  <url>
+    <loc>https://tmsalab.github.io/ohoegdm/reference/sim_slcm.html</loc>
   </url>
 </urlset>
