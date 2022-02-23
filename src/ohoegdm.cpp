@@ -5,6 +5,19 @@
 // KAPPA is a J by M-2 matrix
 // Mixed type items are allowed
 
+
+//' Generate a vector to map polytomous vector to integers
+//'
+//' Converts class into a bijection to integers
+//'
+//' @param K      Number of Attributes
+//' @param M      Number of Response Categories
+//'
+//' @return
+//'
+//' Return a \eqn{K}-length vector containing the bijection vector.
+//'
+//' @export
 // [[Rcpp::export]]
 arma::vec gen_bijectionvector(unsigned int K, unsigned int M)
 {

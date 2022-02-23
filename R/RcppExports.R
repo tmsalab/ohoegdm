@@ -19,6 +19,18 @@ NULL
 #' @noRd
 NULL
 
+#' Generate a vector to map polytomous vector to integers
+#'
+#' Converts class into a bijection to integers
+#'
+#' @param K      Number of Attributes
+#' @param M      Number of Response Categories
+#'
+#' @return
+#'
+#' Return a \eqn{K}-length vector containing the bijection vector.
+#'
+#' @export
 gen_bijectionvector <- function(K, M) {
     .Call(`_ohoegdm_gen_bijectionvector`, K, M)
 }

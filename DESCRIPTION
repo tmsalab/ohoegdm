@@ -27,6 +27,5 @@ Imports:
     Rcpp
 Suggests: 
     edmdata,
-    covr,
-    edmcore
+    covr
 Roxygen: list(markdown = TRUE)

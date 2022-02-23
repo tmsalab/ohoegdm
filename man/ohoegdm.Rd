@@ -174,7 +174,7 @@ Zs = matrix(1, N, 1) \%*\% tau +
      matrix(rnorm(N * K), N, K)
 Alphas = 1 * (Zs > 0)
 
-vv = edmcore::attribute_gen_bijection(K, Malpha)
+vv = gen_bijectionvector(K, Malpha)
 CLs = Alphas \%*\% vv
 Atab = GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
 
