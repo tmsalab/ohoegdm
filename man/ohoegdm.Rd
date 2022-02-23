@@ -68,8 +68,8 @@ A \code{ohoegdm} object containing four named lists:
 \item \code{m2lls}: Negative two times log-likelihood iterations
 \item \code{omegas}:  Omega iterations
 \item \code{kappas} : Category threshold parameter iterations
-\item \code{taus}: \eqn{K}-vectors of factor intercept iterations
-\item \code{lambdas}: \eqn{K}-vectors of factor loadings iterations
+\item \code{taus}: \eqn{K}-vector of factor intercept iterations
+\item \code{lambdas}: \eqn{K}-vector of factor loadings iterations
 \item \code{guessing}: Guessing item parameter iterations
 \item \code{slipping}: Slipping item parameter iterations
 }
@@ -107,7 +107,8 @@ assessing the method under a simulation study.
 }
 \examples{
 # Simulation Study
-if (requireNamespace("edmdata", quietly = TRUE)) {
+if (requireNamespace("edmdata", quietly = TRUE) && 
+    requireNamespace("edmcore", quietly = TRUE)) {
 # Q and Beta Design ----
 
 # Obtain the full K3 Q matrix from edmdata
@@ -165,7 +166,7 @@ sdmtheta = 1   # Standard deviation for theta values
 # Simulate data ---- 
 
 # Generate theta values
-theta <- rnorm(N, sd = sdmtheta)
+theta = rnorm(N, sd = sdmtheta)
 
 # Generate alphas 
 Zs = matrix(1, N, 1) \%*\% tau + 
@@ -173,12 +174,12 @@ Zs = matrix(1, N, 1) \%*\% tau +
      matrix(rnorm(N * K), N, K)
 Alphas = 1 * (Zs > 0)
 
-
-vv = ohoegdm:::gen_bijectionvector(K, Malpha)
+vv = edmcore::attribute_gen_bijection(K, Malpha)
 CLs = Alphas \%*\% vv
-Atab = ohoegdm:::GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
+Atab = GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
 
-Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Kappa)
+# Simulate item-level data
+Ysim = sim_slcm(N, J, M, Malpha ^ K, CLs, Atab, beta, Kappa)
 
 # Establish chain properties 
 # Standard Deviation of MH. Set depending on sample size.

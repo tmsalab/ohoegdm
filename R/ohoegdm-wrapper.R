@@ -60,8 +60,8 @@ new_ohoegdm_model = function(model_mcmc,
 #'    - `m2lls`: Negative two times log-likelihood iterations
 #'    - `omegas`:  Omega iterations
 #'    - `kappas` : Category threshold parameter iterations
-#'    - `taus`: \eqn{K}-vectors of factor intercept iterations
-#'    - `lambdas`: \eqn{K}-vectors of factor loadings iterations
+#'    - `taus`: \eqn{K}-vector of factor intercept iterations
+#'    - `lambdas`: \eqn{K}-vector of factor loadings iterations
 #'    - `guessing`: Guessing item parameter iterations
 #'    - `slipping`: Slipping item parameter iterations
 #' - **`details`**: Properties used to estimate the model
@@ -94,7 +94,8 @@ new_ohoegdm_model = function(model_mcmc,
 #'
 #' @examples
 #' # Simulation Study
-#' if (requireNamespace("edmdata", quietly = TRUE)) {
+#' if (requireNamespace("edmdata", quietly = TRUE) && 
+#'     requireNamespace("edmcore", quietly = TRUE)) {
 #' # Q and Beta Design ----
 #' 
 #' # Obtain the full K3 Q matrix from edmdata
@@ -152,7 +153,7 @@ new_ohoegdm_model = function(model_mcmc,
 #' # Simulate data ---- 
 #' 
 #' # Generate theta values
-#' theta <- rnorm(N, sd = sdmtheta)
+#' theta = rnorm(N, sd = sdmtheta)
 #' 
 #' # Generate alphas 
 #' Zs = matrix(1, N, 1) %*% tau + 
@@ -160,12 +161,12 @@ new_ohoegdm_model = function(model_mcmc,
 #'      matrix(rnorm(N * K), N, K)
 #' Alphas = 1 * (Zs > 0)
 #' 
-#' 
-#' vv = ohoegdm:::gen_bijectionvector(K, Malpha)
+#' vv = edmcore::attribute_gen_bijection(K, Malpha)
 #' CLs = Alphas %*% vv
-#' Atab = ohoegdm:::GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
+#' Atab = GenerateAtable(Malpha ^ K, K, Malpha, order)$Atable
 #' 
-#' Ysim = ohoegdm:::simSLCM(N, J, M, Malpha ^ K, CLs, Atab, beta, Kappa)
+#' # Simulate item-level data
+#' Ysim = sim_slcm(N, J, M, Malpha ^ K, CLs, Atab, beta, Kappa)
 #' 
 #' # Establish chain properties 
 #' # Standard Deviation of MH. Set depending on sample size.
