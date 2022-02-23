@@ -102,9 +102,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// simSLCM
-arma::mat simSLCM(unsigned int N, unsigned int J, unsigned int M, unsigned int nClass, const arma::vec& CLASS, const arma::mat& Atable, const arma::mat& BETA, const arma::mat& KAPPA);
-RcppExport SEXP _ohoegdm_simSLCM(SEXP NSEXP, SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP CLASSSEXP, SEXP AtableSEXP, SEXP BETASEXP, SEXP KAPPASEXP) {
+// sim_slcm
+arma::mat sim_slcm(unsigned int N, unsigned int J, unsigned int M, unsigned int nClass, const arma::vec& CLASS, const arma::mat& Atable, const arma::mat& BETA, const arma::mat& KAPPA);
+RcppExport SEXP _ohoegdm_sim_slcm(SEXP NSEXP, SEXP JSEXP, SEXP MSEXP, SEXP nClassSEXP, SEXP CLASSSEXP, SEXP AtableSEXP, SEXP BETASEXP, SEXP KAPPASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -116,7 +116,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::mat& >::type Atable(AtableSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type BETA(BETASEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type KAPPA(KAPPASEXP);
-    rcpp_result_gen = Rcpp::wrap(simSLCM(N, J, M, nClass, CLASS, Atable, BETA, KAPPA));
+    rcpp_result_gen = Rcpp::wrap(sim_slcm(N, J, M, nClass, CLASS, Atable, BETA, KAPPA));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -551,7 +551,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ohoegdm_rTruncNorm_lb", (DL_FUNC) &_ohoegdm_rTruncNorm_lb, 3},
     {"_ohoegdm_rTruncNorm", (DL_FUNC) &_ohoegdm_rTruncNorm, 4},
     {"_ohoegdm_random_Q", (DL_FUNC) &_ohoegdm_random_Q, 2},
-    {"_ohoegdm_simSLCM", (DL_FUNC) &_ohoegdm_simSLCM, 8},
+    {"_ohoegdm_sim_slcm", (DL_FUNC) &_ohoegdm_sim_slcm, 8},
     {"_ohoegdm_BetatoTheta", (DL_FUNC) &_ohoegdm_BetatoTheta, 4},
     {"_ohoegdm_computePYaj", (DL_FUNC) &_ohoegdm_computePYaj, 5},
     {"_ohoegdm_computePYa", (DL_FUNC) &_ohoegdm_computePYa, 6},

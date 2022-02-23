@@ -149,8 +149,29 @@ arma::mat random_Q(unsigned int J, unsigned int K)
 }
 
 // M will max Ms when mixed item types are included
+//' Simulate Ordinal Item Data from a Sparse Latent Class Model
+//' 
+//' @param N      Number of Observations
+//' @param J      Number of Items
+//' @param M      Number of Item Categories (2, 3,  ..., M)
+//' @param nClass Number of Latent Classes 
+//' @param CLASS  A vector of \eqn{N} observations containing the class ID of the
+//'               subject.
+//' @param Atable A matrix of dimensions \eqn{M^K \times M^order} containing 
+//'               the attribute classes in bijection-form.
+//' @param BETA   A matrix of dimensions \eqn{J \times M^K} containing the 
+//'               coefficients of the reparameterized \eqn{\beta} matrix.
+//' @param KAPPA  A matrix of dimensions \eqn{J \times M} containing the 
+//'               category threshold parameters
+//' 
+//' @return 
+//' An ordinal item matrix of dimensions \eqn{N \times J}{N x J} with \eqn{M}
+//' response levels.
+//' 
+//' @seealso [ohoegdm]
+//' @export
 // [[Rcpp::export]]
-arma::mat simSLCM(unsigned int N, unsigned int J, unsigned int M,
+arma::mat sim_slcm(unsigned int N, unsigned int J, unsigned int M,
                   unsigned int nClass, const arma::vec &CLASS,
                   const arma::mat &Atable, const arma::mat &BETA,
                   const arma::mat &KAPPA)
@@ -1119,6 +1140,26 @@ arma::mat kappa_initialize(unsigned int M, unsigned int J)
 }
 
 // Note the M in this function is Malpha, NOT the number of response categories
+
+//' Generate tables that store different design elements
+//' 
+//' Each table provides a "cache" of pre-computed values.
+//' 
+//' @param nClass   Number of Attribute Classes
+//' @param M        Number of Responses
+//' @param K        Number of Attributes
+//' @param order    Highest interaction order to consider. 
+//'                 Default model-specified `k`.
+//'
+//' @return
+//' Return a `list` containing the table caches for different parameters
+//'
+//' @details
+//' This is **an internal function** briefly used to simulate data and, thus, has
+//' been exported into _R_ as well as documented. **Output from this function can
+//' change in future versions.**
+//' 
+//' @export
 // [[Rcpp::export]]
 Rcpp::List GenerateAtable(unsigned int nClass, unsigned int K, unsigned int M,
                           unsigned int order)
@@ -1421,7 +1462,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
         if (t > burnin - 1) {
             tmburn = t - burnin;
             /*
-          arma::mat Ysim=simSLCM(N,J,M,nClass,CLASS,Atable,BETA,KAPPA);
+          arma::mat Ysim=sim_slcm(N,J,M,nClass,CLASS,Atable,BETA,KAPPA);
           arma::rowvec sim_item_means =arma::mean(Ysim);
           arma::mat sim_item_cov = Ysim.t()*Ysim;//arma::cov(Ysim);
           for(unsigned int j1=0;j1<J;j1++){

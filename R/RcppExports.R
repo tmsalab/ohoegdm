@@ -47,8 +47,29 @@ random_Q <- function(J, K) {
     .Call(`_ohoegdm_random_Q`, J, K)
 }
 
-simSLCM <- function(N, J, M, nClass, CLASS, Atable, BETA, KAPPA) {
-    .Call(`_ohoegdm_simSLCM`, N, J, M, nClass, CLASS, Atable, BETA, KAPPA)
+#' Simulate Ordinal Item Data from a Sparse Latent Class Model
+#' 
+#' @param N      Number of Observations
+#' @param J      Number of Items
+#' @param M      Number of Item Categories (2, 3,  ..., M)
+#' @param nClass Number of Latent Classes 
+#' @param CLASS  A vector of \eqn{N} observations containing the class ID of the
+#'               subject.
+#' @param Atable A matrix of dimensions \eqn{M^K \times M^order} containing 
+#'               the attribute classes in bijection-form.
+#' @param BETA   A matrix of dimensions \eqn{J \times M^K} containing the 
+#'               coefficients of the reparameterized \eqn{\beta} matrix.
+#' @param KAPPA  A matrix of dimensions \eqn{J \times M} containing the 
+#'               category threshold parameters
+#' 
+#' @return 
+#' An ordinal item matrix of dimensions \eqn{N \times J}{N x J} with \eqn{M}
+#' response levels.
+#' 
+#' @seealso [ohoegdm]
+#' @export
+sim_slcm <- function(N, J, M, nClass, CLASS, Atable, BETA, KAPPA) {
+    .Call(`_ohoegdm_sim_slcm`, N, J, M, nClass, CLASS, Atable, BETA, KAPPA)
 }
 
 BetatoTheta <- function(J, nClass, beta, Atable) {
@@ -135,6 +156,25 @@ kappa_initialize <- function(M, J) {
     .Call(`_ohoegdm_kappa_initialize`, M, J)
 }
 
+#' Generate tables that store different design elements
+#' 
+#' Each table provides a "cache" of pre-computed values.
+#' 
+#' @param nClass   Number of Attribute Classes
+#' @param M        Number of Responses
+#' @param K        Number of Attributes
+#' @param order    Highest interaction order to consider. 
+#'                 Default model-specified `k`.
+#'
+#' @return
+#' Return a `list` containing the table caches for different parameters
+#'
+#' @details
+#' This is **an internal function** briefly used to simulate data and, thus, has
+#' been exported into _R_ as well as documented. **Output from this function can
+#' change in future versions.**
+#' 
+#' @export
 GenerateAtable <- function(nClass, K, M, order) {
     .Call(`_ohoegdm_GenerateAtable`, nClass, K, M, order)
 }
