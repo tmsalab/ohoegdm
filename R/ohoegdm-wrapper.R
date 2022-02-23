@@ -94,8 +94,7 @@ new_ohoegdm_model = function(model_mcmc,
 #'
 #' @examples
 #' # Simulation Study
-#' if (requireNamespace("edmdata", quietly = TRUE) && 
-#'     requireNamespace("edmcore", quietly = TRUE)) {
+#' if (requireNamespace("edmdata", quietly = TRUE)) {
 #' # Q and Beta Design ----
 #' 
 #' # Obtain the full K3 Q matrix from edmdata
