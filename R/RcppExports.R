@@ -67,8 +67,9 @@ random_Q <- function(J, K) {
 #' @param nClass Number of Latent Classes 
 #' @param CLASS  A vector of \eqn{N} observations containing the class ID of the
 #'               subject.
-#' @param Atable A matrix of dimensions \eqn{M^K \times M^order} containing 
-#'               the attribute classes in bijection-form.
+#' @param Atable A matrix of dimensions \eqn{M^K \times M^O} containing 
+#'               the attribute classes in bijection-form. Note, \eqn{O} refers
+#'               to the model's highest interaction order.
 #' @param BETA   A matrix of dimensions \eqn{J \times M^K} containing the 
 #'               coefficients of the reparameterized \eqn{\beta} matrix.
 #' @param KAPPA  A matrix of dimensions \eqn{J \times M} containing the 
