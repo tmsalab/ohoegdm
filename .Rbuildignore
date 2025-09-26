@@ -5,6 +5,7 @@
 ^src/\.clang-format$
 ^\.clang-format$
 ^README\.Rmd$
+^README\.qmd$
 ^codecov\.yml$
 ^LICENSE$
 ^_pkgdown\.yml$

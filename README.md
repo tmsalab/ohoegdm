@@ -1,17 +1,17 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
 # ohoegdm
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/tmsalab/ohoegdm/workflows/R-CMD-check/badge.svg)](https://github.com/tmsalab/ohoegdm/actions)
-[![Package-License](https://img.shields.io/badge/license-GPL%20(%3E=2)-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-2.0.html)
 <!-- badges: end -->
 
 The goal of `ohoegdm` is to provide an implementation of the Ordinal
 Higher-order Exploratory General Diagnostic Model for Polytomous Data as
-described by Culpepper and Balamuta (In Press).
+described by Culpepper and Balamuta (2023).
 
 ## Installation
 
@@ -65,4 +65,4 @@ citation("ohoegdm")
 
 ## License
 
-GPL (>= 2)
+GPL (\>= 2)
