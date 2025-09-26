@@ -2,10 +2,9 @@
 
 0 errors | 0 warnings | 1 note
 
-- This is a new release.
-- We are re-submitting the package with changes related to the unexported functions
-  appearing in documentation. We have surfaced these functions and provided 
-  a level of documentation.
+- We are making this release to account for the RcppArmadillo change that
+requires removing `CXX_STD=CXX11`.
+
 - We have the following words that are correctly spelled but appearing as 
   being misspelled: 
 
