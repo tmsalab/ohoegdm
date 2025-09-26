@@ -6,7 +6,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/tmsalab/ohoegdm/workflows/R-CMD-check/badge.svg)](https://github.com/tmsalab/ohoegdm/actions)
+[![R-CMD-check](https://github.com/tmsalab/ohoegdm/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tmsalab/ohoegdm/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of `ohoegdm` is to provide an implementation of the Ordinal
