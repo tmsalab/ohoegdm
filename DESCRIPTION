@@ -1,6 +1,6 @@
 Package: ohoegdm
 Title: Ordinal Higher-Order Exploratory General Diagnostic Model for Polytomous Data
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Steven Andrew", "Culpepper",
            email = "sculpepp@illinois.edu", 
