@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ohoegdm
+# ohoegdm <a href="https://tmsalab.github.io/ohoegdm/"><picture><source media="(prefers-color-scheme: dark)" srcset="man/figures/ohoegdm-logo-animated-dark.svg"><img src="man/figures/ohoegdm-logo-animated-light.svg" width="150" align="right" alt="A hexagonal logo for ohoegdm: a hub marked θ wired to three solid attribute squares, whose spokes run out to twelve items on the rim, solid where the learned Q-matrix is sure and orange where it is unsure, each item a block zero to three steps deep showing one examinee's ordinal answer, with the word ohoegdm below the wheel."/></picture></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tmsalab/ohoegdm/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tmsalab/ohoegdm/actions/workflows/R-CMD-check.yaml)

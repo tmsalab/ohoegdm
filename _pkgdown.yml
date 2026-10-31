@@ -3,9 +3,10 @@ url: https://tmsalab.github.io/ohoegdm
 template:
   params:
     ganalytics: UA-151562227-1
-
-home:
-  strip_header: true
+  opengraph:
+    image:
+      src: man/figures/ohoegdm-logo-static-light.svg
+      alt: The ohoegdm hex logo, a wheel with the general trait at its hub, the learned Q-matrix as spokes and ordinal answers on the rim.
 
 development:
   mode: auto
