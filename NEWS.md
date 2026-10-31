@@ -1,5 +1,10 @@
 # ohoegdm (development version)
 
+## Changes
+
+- Raised the minimum version of every dependency to its latest CRAN
+  release, including Rcpp (>= 1.1.2) and RcppArmadillo (>= 15.6.2-1).
+
 ## Bug fixes
 
 - `ohoegdm()` now stores every draw when `burnin = 0`. Previously the
