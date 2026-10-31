@@ -1,3 +1,22 @@
+# ohoegdm (development version)
+
+## Changes
+
+- Raised the minimum version of every dependency to its latest CRAN
+  release, including Rcpp (>= 1.1.2) and RcppArmadillo (>= 15.6.2-1).
+
+## Bug fixes
+
+- `ohoegdm()` now stores every draw when `burnin = 0`. Previously the
+  comparison `t > burnin - 1` wrapped around on an unsigned integer, so
+  nothing was stored and the returned chains and estimates were all zeros.
+- `ohoegdm()` now stops with an error when `y` contains missing values.
+  Previously a single `NA` produced an invalid fit without warning.
+
+## Internal
+
+- Added a testthat test suite.
+
 # ohoegdm 0.1.1
 
 ## Changes
