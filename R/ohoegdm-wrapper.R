@@ -24,7 +24,7 @@ new_ohoegdm_model = function(model_mcmc,
 #'
 #' Performs the Gibbs sampling routine for an ordinal higher-order EGDM.
 #'
-#' @param y                 Ordinal Item Matrix
+#' @param y                 Ordinal Item Matrix. Missing values are not allowed.
 #' @param k                 Dimension to estimate for Q matrix
 #' @param m                 Number of Item Categories. Default is `2` matching the binary case.
 #' @param order             Highest interaction order to consider. Default model-specified `k`.
@@ -209,6 +209,9 @@ ohoegdm = function(y,
     # Perform some quality checks
     stopifnot(is.matrix(y))
     stopifnot(chain_length > burnin)
+    if (anyNA(y)) {
+        stop("`y` must not contain missing values.", call. = FALSE)
+    }
 
     # parameter_length = sum(choose(k, seq_len(order))) + 1
     # stopifnot(length(l0) == parameter_length)

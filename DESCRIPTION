@@ -1,6 +1,6 @@
 Package: ohoegdm
 Title: Ordinal Higher-Order Exploratory General Diagnostic Model for Polytomous Data
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: c(
     person("Steven Andrew", "Culpepper",
            email = "sculpepp@illinois.edu", 
@@ -23,8 +23,10 @@ Imports: Rcpp (>= 1.1.0)
 LinkingTo: Rcpp, RcppArmadillo (>= 15.0.2-2)
 Suggests: 
     edmdata,
-    covr
+    covr,
+    testthat (>= 3.0.0)
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Encoding: UTF-8
 Language: en-US
+Config/testthat/edition: 3

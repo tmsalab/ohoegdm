@@ -1473,7 +1473,7 @@ Rcpp::List ohoegdm_cpp(const arma::mat &Y, unsigned int K, unsigned int M,
 
         
         // update inputs
-        if (t > burnin - 1) {
+        if (t >= burnin) {
             tmburn = t - burnin;
             /*
           arma::mat Ysim=sim_slcm(N,J,M,nClass,CLASS,Atable,BETA,KAPPA);

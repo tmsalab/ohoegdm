@@ -20,7 +20,7 @@ ohoegdm(
 )
 }
 \arguments{
-\item{y}{Ordinal Item Matrix}
+\item{y}{Ordinal Item Matrix. Missing values are not allowed.}
 
 \item{k}{Dimension to estimate for Q matrix}
 
